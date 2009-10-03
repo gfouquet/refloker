@@ -19,14 +19,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>armida</groupId>
     <artifactId>refloker</artifactId>
     <version>0.5-SNAPSHOT</version>
+
+    <scm>
+    	<url>http://refloker.googlecode.com/svn/trunk</url>
+    </scm>
+
     <properties>
         <easymock.version>2.4</easymock.version>
         <hamcrest.version>1.1</hamcrest.version>
         <junit.version>4.5</junit.version>
     </properties>
+
     <dependencies>
     	<!-- should not have any external dependencies except for unit tests -->
         <!-- unit tests -->
@@ -67,6 +74,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
