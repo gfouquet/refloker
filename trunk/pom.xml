@@ -25,7 +25,7 @@
     <version>0.5-SNAPSHOT</version>
 
     <scm>
-    	<url>http://refloker.googlecode.com/svn/trunk</url>
+    	<connection>scm:svn:http://refloker.googlecode.com/svn/trunk</connection>
     </scm>
 
     <properties>
