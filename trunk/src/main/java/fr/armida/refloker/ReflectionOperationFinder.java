@@ -37,7 +37,8 @@ abstract class ReflectionOperationFinder<OPERATION_OWNER> {
 		definedIn(classDefiningOperation);
 	}
 
-	public void definedIn(Class<? super OPERATION_OWNER> classDefiningOperation)
+	public final void definedIn(
+			Class<? super OPERATION_OWNER> classDefiningOperation)
 			throws NullArgumentException {
 		assertArgumentIsNotNull(classDefiningOperation,
 				"classDefiningOperation");
