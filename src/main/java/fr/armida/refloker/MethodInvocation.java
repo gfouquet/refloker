@@ -35,21 +35,17 @@ public class MethodInvocation<TARGET> {
 
 	protected MethodInvocation(TARGET target, String methodName) {
 		this.target = target;
-		methodFinder = MethodFinder.createFinderForMethodOfObject(methodName,
-				target);
+		methodFinder = MethodFinder.createFinderForMethodOfObject(methodName, target);
 
 		this.argsTypesAdapter = adaptToSignatureTypes(argsDefinitions);
 		this.argsValuesAdapter = adaptToValues(argsDefinitions);
 	}
 
-	private Collection<?> adaptToValues(
-			List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
-		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Object>(
-				argsDefinitions) {
+	private Collection<?> adaptToValues(List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
+		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Object>(argsDefinitions) {
 
 			@Override
-			protected Object adapt(
-					ArgDefinition<?, ? extends MethodInvocation<TARGET>> sourceItem) {
+			protected Object adapt(ArgDefinition<?, ? extends MethodInvocation<TARGET>> sourceItem) {
 				return sourceItem.getValue();
 			}
 		};
@@ -57,12 +53,10 @@ public class MethodInvocation<TARGET> {
 
 	private Collection<Class<?>> adaptToSignatureTypes(
 			List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
-		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Class<?>>(
-				argsDefinitions) {
+		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Class<?>>(argsDefinitions) {
 
 			@Override
-			protected Class<?> adapt(
-					ArgDefinition<?, ? extends MethodInvocation<TARGET>> sourceItem) {
+			protected Class<?> adapt(ArgDefinition<?, ? extends MethodInvocation<TARGET>> sourceItem) {
 				return sourceItem.getSignatureType();
 			}
 		};
@@ -81,10 +75,9 @@ public class MethodInvocation<TARGET> {
 	 * @param arg
 	 * @return
 	 */
-	public final <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> withArg(
-			ARG arg) {
-		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition
-				.createDefinitionForArgOfMethod(arg, this);
+	public final <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> withArg(ARG arg) {
+		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg,
+				this);
 		argsDefinitions.add(definition);
 		return definition;
 	}
@@ -95,8 +88,7 @@ public class MethodInvocation<TARGET> {
 	 * @param arg
 	 * @return
 	 */
-	public final <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> andArg(
-			ARG arg) {
+	public final <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> andArg(ARG arg) {
 		return withArg(arg);
 	}
 
@@ -107,9 +99,7 @@ public class MethodInvocation<TARGET> {
 	 * @throws WrongReflectionOperationException
 	 * @throws ExceptionInReflectionTargetException
 	 */
-	protected final void invokeMethod()
-			throws WrongReflectionOperationException,
-			ExceptionInReflectionTargetException {
+	protected final void invokeMethod() throws WrongReflectionOperationException, ExceptionInReflectionTargetException {
 		invokeMethodAndReturnResult();
 	}
 
@@ -136,8 +126,7 @@ public class MethodInvocation<TARGET> {
 
 	}
 
-	private Object doInvokeMethodAndReturnResult()
-			throws NoSuchMethodException, InvocationTargetException,
+	private Object doInvokeMethodAndReturnResult() throws NoSuchMethodException, InvocationTargetException,
 			IllegalAccessException {
 		Method method = findMethodWithArgsOfTypes(getArgsTypes());
 
@@ -156,22 +145,20 @@ public class MethodInvocation<TARGET> {
 	 * @return
 	 * @throws NoSuchMethodException
 	 */
-	protected Method findMethodWithArgsOfTypes(Class<?>[] argsTypes)
-			throws NoSuchMethodException {
-		Method method = methodFinder.getMethodFromPublicApi(argsTypes);
-		return method;
+	protected Method findMethodWithArgsOfTypes(Class<?>[] argsTypes) throws NoSuchMethodException {
+		return methodFinder.getMethodFromPublicApi(argsTypes);
 	}
 
 	private Class<?>[] getArgsTypes() {
-		return argsTypesAdapter.toArray(new Class<?>[] {});
+		int nTypes = argsTypesAdapter.size();
+		return argsTypesAdapter.toArray(new Class<?>[nTypes]);
 	}
 
 	private Object[] getArgsValues() {
 		return argsValuesAdapter.toArray();
 	}
 
-	private void unwrapAndRethrowCause(InvocationTargetException e)
-			throws ExceptionInReflectionTargetException {
+	private void unwrapAndRethrowCause(InvocationTargetException e) throws ExceptionInReflectionTargetException {
 		Throwable cause = e.getCause();
 		throw new ExceptionInReflectionTargetException(cause);
 	}

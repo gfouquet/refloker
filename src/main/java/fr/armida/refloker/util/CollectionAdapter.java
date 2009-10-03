@@ -23,25 +23,22 @@ import java.util.Iterator;
 
 public abstract class CollectionAdapter<SOURCE_ITEM, ADAPTED_ITEM> extends
 		AbstractCollection<ADAPTED_ITEM> {
-	private class IteratorAdapter implements Iterator<ADAPTED_ITEM> {
+	private final class IteratorAdapter implements Iterator<ADAPTED_ITEM> {
 		private final Iterator<SOURCE_ITEM> sourceIterator;
 
 		private IteratorAdapter() {
 			sourceIterator = collectionToAdapt.iterator();
 		}
 
-		@Override
 		public boolean hasNext() {
 			return sourceIterator.hasNext();
 		}
 
-		@Override
 		public ADAPTED_ITEM next() {
 			SOURCE_ITEM sourceItem = sourceIterator.next();
 			return adapt(sourceItem);
 		}
 
-		@Override
 		public void remove() {
 			sourceIterator.remove();
 

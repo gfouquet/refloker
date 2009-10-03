@@ -51,8 +51,7 @@ public class FieldSet<TARGET> {
 	}
 
 	protected Field getSettableField() throws NoSuchFieldException {
-		Field field = fieldFinder.getFieldFromPublicApi();
-		return field;
+		return fieldFinder.getFieldFromPublicApi();
 	}
 
 	public final FieldSet<TARGET> definedIn(

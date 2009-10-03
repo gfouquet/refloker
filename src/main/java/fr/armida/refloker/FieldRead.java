@@ -44,7 +44,6 @@ public class FieldRead<TARGET> {
 	}
 
 	protected Field getReadableField() throws NoSuchFieldException {
-		Field field = fieldFinder.getFieldFromPublicApi();
-		return field;
+		return fieldFinder.getFieldFromPublicApi();
 	}
 }

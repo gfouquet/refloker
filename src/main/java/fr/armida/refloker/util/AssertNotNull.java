@@ -18,8 +18,11 @@
 package fr.armida.refloker.util;
 
 public final class AssertNotNull {
-	public static void assertArgumentIsNotNull(Object argument,
-			String argumentName) throws NullArgumentException {
+	private AssertNotNull() {
+		super();
+	}
+
+	public static void assertArgumentIsNotNull(Object argument, String argumentName) throws NullArgumentException {
 		if (argument == null) {
 			throw new NullArgumentException(argumentName);
 		}
