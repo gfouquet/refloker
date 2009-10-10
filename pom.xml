@@ -1,32 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-
-    This file is part of the Refloker library, a small DSL for reflective invocation
-    Copyright (C) 2009  Gr�gory Fouquet
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>armida</groupId>
 	<artifactId>refloker</artifactId>
 	<name>Refloker - A small DSL for reflective invocation</name>
-	<version>0.6-SNAPSHOT</version>
+	<version>0.6</version>
 	<url>http://refloker.googlecode.com</url>
 
 	<developers>
@@ -41,9 +19,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:svn:http://refloker.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://refloker.googlecode.com/svn/trunk</developerConnection>
-		<url>http://refloker.googlecode.com/svn</url>
+		<connection>scm:svn:http://refloker.googlecode.com/svn/tags/refloker-0.6</connection>
+		<developerConnection>scm:svn:https://refloker.googlecode.com/svn/tags/refloker-0.6</developerConnection>
+		<url>http://refloker.googlecode.com/svn/tags/refloker-0.6</url>
 	</scm>
 
 	<properties>
@@ -180,4 +158,3 @@
 		</snapshotRepository>
 	</distributionManagement>
 </project>
-        
