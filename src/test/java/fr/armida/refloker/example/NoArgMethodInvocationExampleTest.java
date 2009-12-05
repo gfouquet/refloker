@@ -27,16 +27,24 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.armida.refloker.MethodInvocation;
 
-public class MethodInvocationExample {
+
+public class NoArgMethodInvocationExampleTest {
 	public static class Example {
 		public boolean publicVoidMethodInvoked;
+		public boolean privateVoidMethodInvoked;
 
 		public void voidMethod() {
 			publicVoidMethodInvoked = true;
 		}
 
+		public String stringMethod() {
+			return "invoked";
+		}
+
+		private void privateVoidMethod() {
+			privateVoidMethodInvoked = true;
+		}
 	}
 
 	private Example stubExample;
@@ -47,9 +55,24 @@ public class MethodInvocationExample {
 	}
 
 	@Test
-	public void shouldReadVisibleField() {
+	public void shouldReadVisibleVoidMethod() {
 		execute(on(stubExample).invokeMethod("voidMethod"));
 
 		assertThat(stubExample.publicVoidMethodInvoked, is(true));
 	}
+
+	@Test
+	public void shouldReadVisibleStringMethod() {
+		String value = (String) executeAndReturnValue(on(stubExample).invokeMethod("stringMethod"));
+
+		assertThat(value, is("invoked"));
+	}
+
+	@Test
+	public void shouldReadHiddenVoidMethod() {
+		execute(on(stubExample).invokeHiddenMethod("privateVoidMethod"));
+
+		assertThat(stubExample.privateVoidMethodInvoked, is(true));
+	}
+
 }
