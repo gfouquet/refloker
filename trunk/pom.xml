@@ -4,7 +4,7 @@
 	<groupId>armida</groupId>
 	<artifactId>refloker</artifactId>
 	<name>Refloker - A small DSL for reflective invocation</name>
-	<version>0.7-SNAPSHOT</version>
+	<version>0.6.1-SNAPSHOT</version>
 	<url>http://refloker.googlecode.com</url>
 
 	<developers>

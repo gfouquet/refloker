@@ -59,4 +59,9 @@ public final class Reflector {
 	public static void execute(FieldSet<?> fieldSet) {
 		fieldSet.setField();
 	}
+
+	public static void execute(MethodInvocation<?> invokeMethod) {
+		invokeMethod.invokeMethod();
+	}
+
 }
