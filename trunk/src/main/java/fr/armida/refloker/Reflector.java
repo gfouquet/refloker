@@ -60,8 +60,12 @@ public final class Reflector {
 		fieldSet.setField();
 	}
 
-	public static void execute(MethodInvocation<?> invokeMethod) {
-		invokeMethod.invokeMethod();
+	public static void execute(MethodInvocation<?> methodInvocation) {
+		methodInvocation.invokeMethod();
+	}
+
+	public static Object executeAndReturnValue(MethodInvocation<?> methodInvocation) {
+		return methodInvocation.invokeMethodAndReturnResult();
 	}
 
 }
