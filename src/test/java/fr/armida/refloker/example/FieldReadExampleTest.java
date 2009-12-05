@@ -66,7 +66,7 @@ public class FieldReadExampleTest {
 	}
 
 	@Test
-	public void shouldSetVisibleField() {
+	public void shouldReadVisibleField() {
 		Object value = executeAndReturnValue(on(example).getField("visibleField"));
 
 		assertThat(value, is((Object) "visible field"));
