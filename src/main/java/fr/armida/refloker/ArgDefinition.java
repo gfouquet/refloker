@@ -43,7 +43,7 @@ public final class ArgDefinition<ARG, METHOD_INVOCATION extends MethodInvocation
 		return methodInvocation;
 	}
 
-	public static <A, MI extends MethodInvocation<?>> ArgDefinition<A, MI> createDefinitionForArgOfMethod(
+	protected static <A, MI extends MethodInvocation<?>> ArgDefinition<A, MI> createDefinitionForArgOfMethod(
 			A value, MI methodInvocation) {
 		ArgDefinition<A, MI> def = new ArgDefinition<A, MI>(methodInvocation,
 				value);
