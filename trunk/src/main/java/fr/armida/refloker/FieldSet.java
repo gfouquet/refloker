@@ -19,6 +19,7 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Field;
 
+
 public class FieldSet<TARGET> {
 	private TARGET target;
 	protected final FieldFinder<TARGET> fieldFinder;

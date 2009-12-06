@@ -19,8 +19,7 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Field;
 
-
-final class FieldFinder<FIELD_OWNER> extends
+/*package-private*/final class FieldFinder<FIELD_OWNER> extends
 		ReflectionOperationFinder<FIELD_OWNER> {
 	private FieldFinder(Class<? super FIELD_OWNER> classWhereFieldIsDefined,
 			String fieldName) {

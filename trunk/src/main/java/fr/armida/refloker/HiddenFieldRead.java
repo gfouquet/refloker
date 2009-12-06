@@ -19,7 +19,7 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Field;
 
-final class HiddenFieldRead<TARGET> extends FieldRead<TARGET> {
+/*package-private*/final class HiddenFieldRead<TARGET> extends FieldRead<TARGET> {
 
 	protected HiddenFieldRead(TARGET target, String fieldName) {
 		super(target, fieldName);

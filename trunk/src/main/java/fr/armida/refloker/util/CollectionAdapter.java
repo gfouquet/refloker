@@ -53,12 +53,12 @@ public abstract class CollectionAdapter<SOURCE_ITEM, ADAPTED_ITEM> extends
 	}
 
 	@Override
-	public int size() {
+	public final int size() {
 		return collectionToAdapt.size();
 	}
 
 	@Override
-	public Iterator<ADAPTED_ITEM> iterator() {
+	public final Iterator<ADAPTED_ITEM> iterator() {
 		return new IteratorAdapter();
 	}
 

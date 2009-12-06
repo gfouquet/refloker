@@ -19,7 +19,7 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Field;
 
-final class HiddenFieldSet<TARGET> extends FieldSet<TARGET> {
+/*package-private*/final class HiddenFieldSet<TARGET> extends FieldSet<TARGET> {
 
 	protected HiddenFieldSet(TARGET target, String fieldName) {
 		super(target, fieldName);

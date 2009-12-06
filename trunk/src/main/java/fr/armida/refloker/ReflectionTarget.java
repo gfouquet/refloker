@@ -19,7 +19,7 @@
 package fr.armida.refloker;
 
 
-public class ReflectionTarget<TARGET> {
+public final class ReflectionTarget<TARGET> {
 	private final TARGET target;
 
 	protected ReflectionTarget(TARGET target) {
