@@ -19,7 +19,7 @@ package fr.armida.refloker;
 import static fr.armida.refloker.util.AssertNotNull.assertArgumentIsNotNull;
 import fr.armida.refloker.util.NullArgumentException;
 
-abstract class ReflectionOperationFinder<OPERATION_OWNER> {
+/*package-private*/abstract class ReflectionOperationFinder<OPERATION_OWNER> {
 	/**
 	 * For internal use by subclasses.
 	 */
@@ -46,7 +46,7 @@ abstract class ReflectionOperationFinder<OPERATION_OWNER> {
 		classWhereOperationIsDefined = classDefiningOperation;
 	}
 
-	public Class<? super OPERATION_OWNER> getClassWhereOperationIsDefined() {
+	public final Class<? super OPERATION_OWNER> getClassWhereOperationIsDefined() {
 		return classWhereOperationIsDefined;
 	}
 
