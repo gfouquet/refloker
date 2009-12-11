@@ -124,6 +124,7 @@
 					<header>src/etc/licence-header.txt</header>
 					<excludes>
 						<exclude>**/LICENSE.txt</exclude>
+                        <exclude>**/.idea/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
