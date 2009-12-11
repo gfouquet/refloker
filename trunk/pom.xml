@@ -4,7 +4,7 @@
 	<groupId>armida</groupId>
 	<artifactId>refloker</artifactId>
 	<name>Refloker - A small DSL for reflective invocation</name>
-	<version>0.6.1-SNAPSHOT</version>
+	<version>0.6.1</version>
 	<url>http://refloker.googlecode.com</url>
 
 	<developers>
@@ -19,9 +19,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:svn:http://refloker.googlecode.com/svn/trunk</connection>
-		<developerConnection>scm:svn:https://refloker.googlecode.com/svn/trunk</developerConnection>
-		<url>http://refloker.googlecode.com/svn</url>
+		<connection>scm:svn:http://refloker.googlecode.com/svn/tags/refloker-0.6.1</connection>
+		<developerConnection>scm:svn:https://refloker.googlecode.com/svn/tags/refloker-0.6.1</developerConnection>
+		<url>http://refloker.googlecode.com/svn/tags/refloker-0.6.1</url>
 	</scm>
 
 	<properties>
