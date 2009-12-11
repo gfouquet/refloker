@@ -2,6 +2,7 @@
 
 ==Version 0.6.1==
 Fixes : 
-1 - `*`ArgDefinition.createDefinitionForArgOfMethod should be hidden
-3 - No entrypoint for method invocation 
 
+Issue 1 - ArgDefinition.createDefinitionForArgOfMethod should be hidden
+
+Issue 3 - No entrypoint for method invocation 
