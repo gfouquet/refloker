@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import fr.armida.refloker.util.AssertNotNull;
 import fr.armida.refloker.util.CollectionAdapter;
 
 public class MethodInvocation<TARGET> {
@@ -75,7 +76,7 @@ public class MethodInvocation<TARGET> {
 	 * @param arg
 	 * @return
 	 */
-	public final <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> withArg(ARG arg) {
+	public /*final*/ <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> withArg(ARG arg) {
 		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg,
 				this);
 		argsDefinitions.add(definition);
@@ -88,7 +89,7 @@ public class MethodInvocation<TARGET> {
 	 * @param arg
 	 * @return
 	 */
-	public final <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> andArg(ARG arg) {
+	public /*final*/ <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> andArg(ARG arg) {
 		return withArg(arg);
 	}
 
@@ -99,7 +100,7 @@ public class MethodInvocation<TARGET> {
 	 * @throws WrongReflectionOperationException
 	 * @throws ExceptionInReflectionTargetException
 	 */
-	protected final void invokeMethod() throws WrongReflectionOperationException, ExceptionInReflectionTargetException {
+	protected /*final*/ void invokeMethod() throws WrongReflectionOperationException, ExceptionInReflectionTargetException {
 		invokeMethodAndReturnResult();
 	}
 
@@ -109,7 +110,7 @@ public class MethodInvocation<TARGET> {
 	 * 
 	 * @return
 	 */
-	protected final Object invokeMethodAndReturnResult() {
+	protected /*final*/ Object invokeMethodAndReturnResult() {
 		Object result = null;
 
 		try {
@@ -163,4 +164,14 @@ public class MethodInvocation<TARGET> {
 		throw new ExceptionInReflectionTargetException(cause);
 	}
 
+    /**
+     * Internal API. Allows ArgDefinition registration from this kind of chained call :
+     * target.invokeMEthod("...").withArg(foo).andArg(bar).andArg(baz);
+     * @param argDef the new argument definition.
+     * @param <ARG> type of the argument
+     */
+    /*package-private*/ <ARG> void addArgDefinition(ArgDefinition<ARG, MethodInvocation<TARGET>> argDef) {
+        AssertNotNull.assertArgumentIsNotNull(argDef, "argDef");
+        argsDefinitions.add(argDef);
+    }
 }
