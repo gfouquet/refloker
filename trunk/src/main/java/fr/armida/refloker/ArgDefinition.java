@@ -49,4 +49,8 @@ public final class ArgDefinition<ARG, METHOD_INVOCATION extends MethodInvocation
 				value);
 		return def;
 	}
+
+    public <OTHER_ARG> ArgDefinition<OTHER_ARG, METHOD_INVOCATION> andArg(OTHER_ARG arg) {
+        return (ArgDefinition<OTHER_ARG, METHOD_INVOCATION>) methodInvocation.andArg(arg);
+    }
 }
