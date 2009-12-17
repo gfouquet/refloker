@@ -55,21 +55,21 @@ public class NoArgMethodInvocationExampleTest {
 	}
 
 	@Test
-	public void shouldReadVisibleVoidMethod() {
+	public void shouldInvokeVisibleVoidMethod() {
 		execute(on(stubExample).invokeMethod("voidMethod"));
 
 		assertThat(stubExample.publicVoidMethodInvoked, is(true));
 	}
 
 	@Test
-	public void shouldReadVisibleStringMethod() {
+	public void shouldInvokeVisibleStringMethod() {
 		String value = (String) executeAndReturnValue(on(stubExample).invokeMethod("stringMethod"));
 
 		assertThat(value, is("invoked"));
 	}
 
 	@Test
-	public void shouldReadHiddenVoidMethod() {
+	public void shouldInvokeHiddenVoidMethod() {
 		execute(on(stubExample).invokeHiddenMethod("privateVoidMethod"));
 
 		assertThat(stubExample.privateVoidMethodInvoked, is(true));

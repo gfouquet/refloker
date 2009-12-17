@@ -20,13 +20,14 @@ package fr.armida.refloker.example;
 
 import static fr.armida.refloker.Reflector.executeAndReturnValue;
 import static fr.armida.refloker.Reflector.on;
+import static fr.armida.refloker.Reflector.declaredIn;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.armida.refloker.FieldRead;
+import fr.armida.refloker.ExecutableQueryState;
 import fr.armida.refloker.Reflector;
 
 public class FieldReadExampleTest {
@@ -59,8 +60,8 @@ public class FieldReadExampleTest {
 
 	@Test
 	public void shouldReadHiddenField() {
-		FieldRead<Example> fieldReadOperation = Reflector.on(example).getHiddenField("hiddenField");
-		Object value = Reflector.executeAndReturnValue(fieldReadOperation);
+		ExecutableQueryState fieldReadOperation = Reflector.on(example).getHiddenField("hiddenField");
+		Object value = executeAndReturnValue(fieldReadOperation);
 
 		assertThat(value, is((Object) "hidden field"));
 	}
@@ -75,7 +76,7 @@ public class FieldReadExampleTest {
 	@Test
 	public void shouldReadVisibleFieldDefinedInSuperclass() {
 		// when the field is defined in a superclass, we have to indicate it
-		Object value = executeAndReturnValue(on(subExample).getField("visibleField").definedIn(Example.class));
+		Object value = executeAndReturnValue(on(subExample).getField("visibleField", declaredIn(Example.class)));
 
 		assertThat(value, is((Object) "visible field"));
 	}

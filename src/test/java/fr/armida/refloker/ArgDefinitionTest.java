@@ -21,6 +21,7 @@ package fr.armida.refloker;
 import org.junit.Before;
 import org.junit.Test;
 
+import static fr.armida.refloker.Reflector.execute;
 import static fr.armida.refloker.Reflector.on;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.*;
@@ -76,10 +77,10 @@ public class ArgDefinitionTest {
         TargetClass target = new TargetClass();
 
         ArgDefinition<Number, MethodInvocation<TargetClass>> register = on(target).invokeHiddenMethod("register").withArg(argOne).andArg(argTwo);
-        // WTF api is broken
-//        execute(register);
-//        assertThat((Number) target.registeredArgOne, is(argOne));
-//        assertThat((Number) target.registeredArgOne, is(argTwo));
+		// moderately satisfying overload of execute required to fix grammar
+		execute(register);
+		assertThat((Number) target.registeredArgOne, is(argOne));
+		assertThat((Number) target.registeredArgTwo, is(argTwo));
     }
 }
 

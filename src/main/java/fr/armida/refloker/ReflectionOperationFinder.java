@@ -27,27 +27,27 @@ import fr.armida.refloker.util.NullArgumentException;
 	/**
 	 * For internal use by subclasses.
 	 */
-	private Class<? super OPERATION_OWNER> classWhereOperationIsDefined;
+	private Class<? super OPERATION_OWNER> classWhereOperationIsDeclared;
 
 	protected ReflectionOperationFinder(
 			Class<? super OPERATION_OWNER> classDefiningOperation,
 			String operationName) {
 		super();
 		this.operationName = operationName;
-		definedIn(classDefiningOperation);
+		declaredIn(classDefiningOperation);
 	}
 
-	public final void definedIn(
-			Class<? super OPERATION_OWNER> classDefiningOperation)
+	public final void declaredIn(
+Class<? super OPERATION_OWNER> classDeclaringOperation)
 			throws NullArgumentException {
-		assertArgumentIsNotNull(classDefiningOperation,
-				"classDefiningOperation");
+		assertArgumentIsNotNull(classDeclaringOperation,
+ "classDeclaringOperation");
 
-		classWhereOperationIsDefined = classDefiningOperation;
+		classWhereOperationIsDeclared = classDeclaringOperation;
 	}
 
-	public final Class<? super OPERATION_OWNER> getClassWhereOperationIsDefined() {
-		return classWhereOperationIsDefined;
+	public final Class<? super OPERATION_OWNER> getClassWhereOperationIsDeclared() {
+		return classWhereOperationIsDeclared;
 	}
 
 }

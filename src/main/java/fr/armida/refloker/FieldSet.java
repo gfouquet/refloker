@@ -57,7 +57,7 @@ public class FieldSet<TARGET> {
 
 	public final FieldSet<TARGET> definedIn(
 			Class<? super TARGET> classDefiningField) {
-		fieldFinder.definedIn(classDefiningField);
+		fieldFinder.declaredIn(classDefiningField);
 		return this;
 	}
 

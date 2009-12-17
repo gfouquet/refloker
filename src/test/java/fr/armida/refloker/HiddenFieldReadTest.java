@@ -57,7 +57,7 @@ public class HiddenFieldReadTest {
 		((TargetSuperclass)target).superfieldToRead = EXPECTED_FIELD_VALUE;
 		objectUnderTest = new HiddenFieldRead<TargetClass>(target, "superfieldToRead");
 
-		objectUnderTest.definedIn(TargetSuperclass.class);
+		objectUnderTest.declaredIn(TargetSuperclass.class);
 		Object result = objectUnderTest.readField();
 
 		assertThat(result, equalTo((Object) EXPECTED_FIELD_VALUE));

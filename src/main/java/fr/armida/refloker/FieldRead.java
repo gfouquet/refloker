@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 
 import fr.armida.refloker.util.NullArgumentException;
 
-public class FieldRead<TARGET> {
+public class FieldRead<TARGET> implements ExecutableQueryState {
 	private final TARGET target;
 	protected final FieldFinder<TARGET> fieldFinder;
 
@@ -31,10 +31,10 @@ public class FieldRead<TARGET> {
 		fieldFinder = FieldFinder.createFinderForFieldOfObject(fieldName, target);
 	}
 
-	public final FieldRead<TARGET> definedIn(
-			Class<? super TARGET> classDefiningField)
+	protected final FieldRead<TARGET> declaredIn(
+			Class<? super TARGET> classDeclaringField)
 			throws NullArgumentException {
-		fieldFinder.definedIn(classDefiningField);
+		fieldFinder.declaredIn(classDeclaringField);
 		return this;
 	}
 
@@ -63,5 +63,9 @@ public class FieldRead<TARGET> {
 
 	protected Field getReadableField() throws NoSuchFieldException {
 		return fieldFinder.getFieldFromPublicApi();
+	}
+
+	public Object executeAndReturnValue() {
+		return readField();
 	}
 }
