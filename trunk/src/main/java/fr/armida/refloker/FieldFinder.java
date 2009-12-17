@@ -27,11 +27,11 @@ import java.lang.reflect.Field;
 	}
 
 	public Field getFieldFromPublicApi() throws NoSuchFieldException {
-		return getClassWhereOperationIsDefined().getField(operationName);
+		return getClassWhereOperationIsDeclared().getField(operationName);
 	}
 
 	public Field getFieldRegardlessVisibility() throws NoSuchFieldException {
-		return getClassWhereOperationIsDefined()
+		return getClassWhereOperationIsDeclared()
 				.getDeclaredField(operationName);
 	}
 

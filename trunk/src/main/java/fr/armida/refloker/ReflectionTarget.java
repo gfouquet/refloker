@@ -18,8 +18,10 @@
  */
 package fr.armida.refloker;
 
+import fr.armida.refloker.util.AssertNotNull;
 
-public final class ReflectionTarget<TARGET> {
+
+public final class ReflectionTarget<TARGET> implements SelectingOperationState<TARGET> {
 	private final TARGET target;
 
 	protected ReflectionTarget(TARGET target) {
@@ -32,7 +34,8 @@ public final class ReflectionTarget<TARGET> {
 	 * @param fieldName
 	 * @return
 	 */
-	public FieldRead<TARGET> getField(String fieldName) {
+	public ExecutableQueryState getField(String fieldName) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		return new FieldRead<TARGET>(target, fieldName);
 	}
 
@@ -42,7 +45,8 @@ public final class ReflectionTarget<TARGET> {
 	 * @param fieldName
 	 * @return
 	 */
-	public FieldRead<TARGET> getHiddenField(String fieldName) {
+	public ExecutableQueryState getHiddenField(String fieldName) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		return new HiddenFieldRead<TARGET>(target, fieldName);
 	}
 
@@ -61,4 +65,25 @@ public final class ReflectionTarget<TARGET> {
 	public MethodInvocation<TARGET> invokeHiddenMethod(String methodName) {
 		return new HiddenMethodInvocation<TARGET>(target, methodName);
 	}
+
+	public ExecutableQueryState getField(String fieldName, Class<? super TARGET> declaringSuperclass) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+		AssertNotNull.assertArgumentIsNotNull(declaringSuperclass, "declaringSuperclass");
+
+		FieldRead<TARGET> fieldRead = new FieldRead<TARGET>(target, fieldName);
+		fieldRead.declaredIn(declaringSuperclass);
+
+		return fieldRead;
+	}
+
+	public ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> declaringSuperclass) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+		AssertNotNull.assertArgumentIsNotNull(declaringSuperclass, "declaringSuperclass");
+
+		FieldRead<TARGET> fieldRead = new HiddenFieldRead<TARGET>(target, fieldName);
+		fieldRead.declaredIn(declaringSuperclass);
+
+		return fieldRead;
+	}
+
 }

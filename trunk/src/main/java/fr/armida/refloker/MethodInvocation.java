@@ -163,15 +163,4 @@ public class MethodInvocation<TARGET> {
 		Throwable cause = e.getCause();
 		throw new ExceptionInReflectionTargetException(cause);
 	}
-
-    /**
-     * Internal API. Allows ArgDefinition registration from this kind of chained call :
-     * target.invokeMEthod("...").withArg(foo).andArg(bar).andArg(baz);
-     * @param argDef the new argument definition.
-     * @param <ARG> type of the argument
-     */
-    /*package-private*/ <ARG> void addArgDefinition(ArgDefinition<ARG, MethodInvocation<TARGET>> argDef) {
-        AssertNotNull.assertArgumentIsNotNull(argDef, "argDef");
-        argsDefinitions.add(argDef);
-    }
 }

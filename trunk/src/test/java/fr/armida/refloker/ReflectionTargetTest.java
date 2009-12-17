@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.armida.refloker.FieldRead;
 import fr.armida.refloker.MethodInvocation;
 import fr.armida.refloker.ReflectionTarget;
 
@@ -43,19 +42,11 @@ public class ReflectionTargetTest {
 	}
 
 	@Test
-	public void shouldCreateANewFieldRead() {
-		FieldRead<TargetClass> fr1 = objectUnderTest.getField("field");
-		FieldRead<TargetClass> fr2 = objectUnderTest.getField("field");
-
-		assertNonNullDifferentValues(fr1, fr2);
-	}
-
-	@Test
 	public void shouldCreateANewHiddenFieldRead() {
-		FieldRead<TargetClass> fr1 = objectUnderTest.getHiddenField("field");
-		FieldRead<TargetClass> fr2 = objectUnderTest.getHiddenField("field");
+		ExecutableQueryState eqs1 = objectUnderTest.getHiddenField("field");
+		ExecutableQueryState eqs2 = objectUnderTest.getHiddenField("field");
 
-		assertNonNullDifferentValues(fr1, fr2);
+		assertNonNullDifferentValues(eqs1, eqs2);
 	}
 
 	@Test
@@ -82,6 +73,14 @@ public class ReflectionTargetTest {
 				.invokeHiddenMethod("field");
 
 		assertNonNullDifferentValues(mi, mimi);
+	}
+
+	@Test
+	public void shouldCreateANewExecutableQueryState() {
+		ExecutableQueryState eqs1 = objectUnderTest.getField("field");
+		ExecutableQueryState eqs2 = objectUnderTest.getField("field");
+
+		assertNonNullDifferentValues(eqs1, eqs2);
 	}
 
 }

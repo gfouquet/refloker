@@ -29,7 +29,7 @@ final class MethodFinder<METHOD_OWNER> extends
 
 	public Method getMethodFromPublicApi(Class<?>... signatureTypes)
 			throws NoSuchMethodException {
-		return getClassWhereOperationIsDefined().getDeclaredMethod(
+		return getClassWhereOperationIsDeclared().getDeclaredMethod(
 				operationName, signatureTypes);
 	}
 
@@ -44,7 +44,7 @@ final class MethodFinder<METHOD_OWNER> extends
 
 	public Method getMethodRegardlessVisibility(Class<?>... signatureTypes)
 			throws NoSuchMethodException {
-		Method method = getClassWhereOperationIsDefined().getDeclaredMethod(
+		Method method = getClassWhereOperationIsDeclared().getDeclaredMethod(
 				operationName, signatureTypes);
 
 		return method;

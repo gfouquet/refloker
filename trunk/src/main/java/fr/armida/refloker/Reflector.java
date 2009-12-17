@@ -52,8 +52,8 @@ public final class Reflector {
 		return new ReflectionTarget<T>(target);
 	}
 
-	public static Object executeAndReturnValue(FieldRead<?> fieldRead) {
-		return fieldRead.readField();
+	public static Object executeAndReturnValue(ExecutableQueryState reflexiveQuery) {
+		return reflexiveQuery.executeAndReturnValue();
 	}
 
 	public static void execute(FieldSet<?> fieldSet) {
@@ -68,4 +68,24 @@ public final class Reflector {
 		return methodInvocation.invokeMethodAndReturnResult();
 	}
 
+	public static void execute(ArgDefinition<?, ?> method) {
+		execute(method.getMethodInvocation());
+	}
+
+	public static Object executeAndReturnValue(ArgDefinition<?, ?> method) {
+		return executeAndReturnValue(method.getMethodInvocation());
+	}
+
+	/**
+	 * Helper method used to specify the superclass where some method / field is
+	 * declared.
+	 * 
+	 * @param <T>
+	 * @param definingSuperclass
+	 * @return
+	 */
+	public static <T> Class<T> declaredIn(Class<T> declaringSuperclass) {
+		// pass through method, for semantic purpose.
+		return declaringSuperclass;
+	}
 }

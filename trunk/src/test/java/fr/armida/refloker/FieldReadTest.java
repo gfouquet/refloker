@@ -55,8 +55,19 @@ public class FieldReadTest {
 		target.superfieldToRead = EXPECTED_FIELD_VALUE;
 		objectUnderTest = new FieldRead<TargetClass>(target, "superfieldToRead");
 
-		objectUnderTest.definedIn(TargetSuperclass.class);
+		objectUnderTest.declaredIn(TargetSuperclass.class);
 		Object result = objectUnderTest.readField();
+
+		assertThat(result, equalTo((Object) EXPECTED_FIELD_VALUE));
+	}
+
+	@Test
+	public void shouldReturnValueOfTargetField() {
+		target = new TargetClass();
+		target.fieldToRead = EXPECTED_FIELD_VALUE;
+		objectUnderTest = new FieldRead<TargetClass>(target, "fieldToRead");
+
+		Object result = objectUnderTest.executeAndReturnValue();
 
 		assertThat(result, equalTo((Object) EXPECTED_FIELD_VALUE));
 	}
