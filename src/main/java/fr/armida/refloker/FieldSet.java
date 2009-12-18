@@ -20,19 +20,19 @@ package fr.armida.refloker;
 import java.lang.reflect.Field;
 
 
-public class FieldSet<TARGET> {
+class FieldSet<TARGET> implements AwaitingValueState {
 	private TARGET target;
 	protected final FieldFinder<TARGET> fieldFinder;
 	private Object valueToSet;
 
-	public FieldSet(TARGET target, String fieldName) {
+	protected FieldSet(TARGET target, String fieldName) {
 		this.target = target;
 		fieldFinder = FieldFinder.createFinderForFieldOfObject(fieldName, target);
 	}
 
-	public final FieldSet<TARGET> to(Object value) {
+	public final ExecutableCommandState to(Object value) {
 		valueToSet = value;
-		return this;
+		return new ExecutableCommandFieldSetAdapter<TARGET>(this);
 	}
 
 	protected final void setField() {
@@ -55,9 +55,9 @@ public class FieldSet<TARGET> {
 		return fieldFinder.getFieldFromPublicApi();
 	}
 
-	public final FieldSet<TARGET> definedIn(
-			Class<? super TARGET> classDefiningField) {
-		fieldFinder.declaredIn(classDefiningField);
+	protected final FieldSet<TARGET> declaredIn(
+			Class<? super TARGET> classDeclaringField) {
+		fieldFinder.declaredIn(classDeclaringField);
 		return this;
 	}
 

@@ -55,7 +55,7 @@ public class FieldSetTest {
 		target = new TargetClass();
 		objectUnderTest = new FieldSet<TargetClass>(target, "superfieldToSet");
 
-		objectUnderTest.definedIn(TargetSuperclass.class).to(EXPECTED_FIELD_VALUE);
+		objectUnderTest.declaredIn(TargetSuperclass.class).to(EXPECTED_FIELD_VALUE);
 		objectUnderTest.setField();
 
 		assertThat(target.superfieldToSet, equalTo(EXPECTED_FIELD_VALUE));

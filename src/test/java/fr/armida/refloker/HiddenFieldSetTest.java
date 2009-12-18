@@ -57,7 +57,7 @@ public class HiddenFieldSetTest {
 		objectUnderTest = new HiddenFieldSet<TargetClass>(target,
 				"superfieldToSet");
 
-		objectUnderTest.definedIn(TargetSuperclass.class).to(
+		objectUnderTest.declaredIn(TargetSuperclass.class).to(
 				EXPECTED_FIELD_VALUE);
 		objectUnderTest.setField();
 

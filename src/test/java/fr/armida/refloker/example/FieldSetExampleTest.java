@@ -18,6 +18,7 @@
  */
 package fr.armida.refloker.example;
 
+import static fr.armida.refloker.Reflector.declaredIn;
 import static fr.armida.refloker.Reflector.execute;
 import static fr.armida.refloker.Reflector.on;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,7 +27,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.armida.refloker.FieldSet;
+import fr.armida.refloker.ExecutableCommandState;
 import fr.armida.refloker.Reflector;
 
 public class FieldSetExampleTest {
@@ -67,7 +68,7 @@ public class FieldSetExampleTest {
 
 	@Test
 	public void shouldSetHiddenField() {
-		FieldSet<Example> fieldSetOperation = Reflector.on(example).setHiddenField("hiddenField").to(
+		ExecutableCommandState fieldSetOperation = Reflector.on(example).setHiddenField("hiddenField").to(
 				"hidden field was set");
 		Reflector.execute(fieldSetOperation);
 
@@ -84,7 +85,7 @@ public class FieldSetExampleTest {
 	@Test
 	public void shouldSetHiddenFieldDefinedInSuperclass() {
 		// when the field is defined in a superclass, we have to indicate it
-		execute(on(subExample).setHiddenField("hiddenField").definedIn(Example.class).to(
+		execute(on(subExample).setHiddenField("hiddenField", declaredIn(Example.class)).to(
 				"hidden field was set in superclass"));
 
 		assertThat(subExample.getHiddenField(), is("hidden field was set in superclass"));
