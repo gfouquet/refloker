@@ -56,8 +56,8 @@ public final class Reflector {
 		return reflexiveQuery.executeAndReturnValue();
 	}
 
-	public static void execute(FieldSet<?> fieldSet) {
-		fieldSet.setField();
+	public static void execute(ExecutableCommandState reflexiveCommand) {
+		reflexiveCommand.execute();
 	}
 
 	public static void execute(MethodInvocation<?> methodInvocation) {
