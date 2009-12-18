@@ -19,5 +19,10 @@
 package fr.armida.refloker;
 
 public interface AwaitingValueState {
+	/**
+	 * @param newValue
+	 *            value may be <code>null</code>.
+	 * @return
+	 */
 	ExecutableCommandState to(Object newValue);
 }

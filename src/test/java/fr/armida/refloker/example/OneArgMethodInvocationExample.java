@@ -20,6 +20,7 @@ package fr.armida.refloker.example;
 
 import static fr.armida.refloker.Reflector.execute;
 import static fr.armida.refloker.Reflector.executeAndReturnValue;
+import static fr.armida.refloker.Reflector.ofType;
 import static fr.armida.refloker.Reflector.on;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -82,7 +83,7 @@ public class OneArgMethodInvocationExample {
 
 		// type of formal parameter must be given when it's not the same as the
 		// argument's class
-		Number value = (Number) executeAndReturnValue(on(stubExample).invokeHiddenMethod("numberArgMethod").withArg(arg).ofType(Number.class));
+		Number value = (Number) executeAndReturnValue(on(stubExample).invokeHiddenMethod("numberArgMethod").withArg(arg, ofType(Number.class)));
 
 		assertThat(value, is((Number) arg));
 	}

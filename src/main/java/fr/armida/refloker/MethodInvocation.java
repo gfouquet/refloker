@@ -26,7 +26,7 @@ import java.util.List;
 import fr.armida.refloker.util.AssertNotNull;
 import fr.armida.refloker.util.CollectionAdapter;
 
-public class MethodInvocation<TARGET> {
+public class MethodInvocation<TARGET> implements AwaitingArgumentState {
 	private final TARGET target;
 	protected final MethodFinder<TARGET> methodFinder;
 
@@ -52,8 +52,7 @@ public class MethodInvocation<TARGET> {
 		};
 	}
 
-	private Collection<Class<?>> adaptToSignatureTypes(
-			List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
+	private Collection<Class<?>> adaptToSignatureTypes(List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
 		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Class<?>>(argsDefinitions) {
 
 			@Override
@@ -67,8 +66,8 @@ public class MethodInvocation<TARGET> {
 	 * Defines an argument of the method to invoke. /!\ This object will try to
 	 * invoke a method with a signature type the concrete type of the passed
 	 * argument. If the signature type is not the concrete type of argument,
-	 * signature type should be indicated through {@link #withArg(Object)}.
-	 * {@link #ofType(Class)}.
+	 * signature type should be indicated through
+	 * <code>withArg(value, ofType(signatureType))</code>
 	 * 
 	 * @see ArgDefinition#ofType(Class)
 	 * 
@@ -76,11 +75,10 @@ public class MethodInvocation<TARGET> {
 	 * @param arg
 	 * @return
 	 */
-	public /*final*/ <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> withArg(ARG arg) {
-		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg,
-				this);
+	public/* final */<ARG> AwaitingArgumentState withArg(ARG arg) {
+		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
 		argsDefinitions.add(definition);
-		return definition;
+		return this;
 	}
 
 	/**
@@ -89,7 +87,7 @@ public class MethodInvocation<TARGET> {
 	 * @param arg
 	 * @return
 	 */
-	public /*final*/ <ARG> ArgDefinition<ARG, MethodInvocation<TARGET>> andArg(ARG arg) {
+	public/* final */<ARG> AwaitingArgumentState andArg(ARG arg) {
 		return withArg(arg);
 	}
 
@@ -100,7 +98,7 @@ public class MethodInvocation<TARGET> {
 	 * @throws WrongReflectionOperationException
 	 * @throws ExceptionInReflectionTargetException
 	 */
-	protected /*final*/ void invokeMethod() throws WrongReflectionOperationException, ExceptionInReflectionTargetException {
+	protected/* final */void invokeMethod() throws WrongReflectionOperationException, ExceptionInReflectionTargetException {
 		invokeMethodAndReturnResult();
 	}
 
@@ -110,7 +108,7 @@ public class MethodInvocation<TARGET> {
 	 * 
 	 * @return
 	 */
-	protected /*final*/ Object invokeMethodAndReturnResult() {
+	protected/* final */Object invokeMethodAndReturnResult() {
 		Object result = null;
 
 		try {
@@ -127,8 +125,7 @@ public class MethodInvocation<TARGET> {
 
 	}
 
-	private Object doInvokeMethodAndReturnResult() throws NoSuchMethodException, InvocationTargetException,
-			IllegalAccessException {
+	private Object doInvokeMethodAndReturnResult() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		Method method = findMethodWithArgsOfTypes(getArgsTypes());
 
 		Object[] argsValues = getArgsValues();
@@ -162,5 +159,26 @@ public class MethodInvocation<TARGET> {
 	private void unwrapAndRethrowCause(InvocationTargetException e) throws ExceptionInReflectionTargetException {
 		Throwable cause = e.getCause();
 		throw new ExceptionInReflectionTargetException(cause);
+	}
+
+	public Object executeAndReturnValue() {
+		return invokeMethodAndReturnResult();
+	}
+
+	public <ARG> AwaitingArgumentState withArg(ARG arg, Class<? super ARG> signatureType) {
+		AssertNotNull.assertArgumentIsNotNull(signatureType, "signatureType");
+
+		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
+		definition.ofType(signatureType);
+		argsDefinitions.add(definition);
+
+		return this;
+	}
+
+	/**
+	 * Syntactic sugar, same as {@link #withArg(Object, Class)}
+	 */
+	public <ARG> AwaitingArgumentState andArg(ARG arg, Class<? super ARG> signatureType) {
+		return withArg(arg, signatureType);
 	}
 }

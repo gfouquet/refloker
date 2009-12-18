@@ -60,20 +60,12 @@ public final class Reflector {
 		reflexiveCommand.execute();
 	}
 
-	public static void execute(MethodInvocation<?> methodInvocation) {
-		methodInvocation.invokeMethod();
+	public static void execute(ExecutableQueryState reflexiveQuery) {
+		reflexiveQuery.executeAndReturnValue();
 	}
 
 	public static Object executeAndReturnValue(MethodInvocation<?> methodInvocation) {
 		return methodInvocation.invokeMethodAndReturnResult();
-	}
-
-	public static void execute(ArgDefinition<?, ?> method) {
-		execute(method.getMethodInvocation());
-	}
-
-	public static Object executeAndReturnValue(ArgDefinition<?, ?> method) {
-		return executeAndReturnValue(method.getMethodInvocation());
 	}
 
 	/**
@@ -87,5 +79,18 @@ public final class Reflector {
 	public static <T> Class<T> declaredIn(Class<T> declaringSuperclass) {
 		// pass through method, for semantic purpose.
 		return declaringSuperclass;
+	}
+
+	/**
+	 * Helper method used to specify the signature type of some method /
+	 * constructor argument.
+	 * 
+	 * @param <T>
+	 * @param definingSuperclass
+	 * @return
+	 */
+	public static <T> Class<T> ofType(Class<T> signatureType) {
+		// pass through method, for semantic purpose.
+		return signatureType;
 	}
 }

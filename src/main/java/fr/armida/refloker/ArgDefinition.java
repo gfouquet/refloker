@@ -49,13 +49,4 @@ public final class ArgDefinition<ARG, METHOD_INVOCATION extends MethodInvocation
 				value);
 		return def;
 	}
-
-	@SuppressWarnings("unchecked")
-	public <OTHER_ARG> ArgDefinition<OTHER_ARG, METHOD_INVOCATION> andArg(OTHER_ARG arg) {
-        return (ArgDefinition<OTHER_ARG, METHOD_INVOCATION>) methodInvocation.andArg(arg);
-    }
-
-	/* package-private */METHOD_INVOCATION getMethodInvocation() {
-		return methodInvocation;
-	}
 }
