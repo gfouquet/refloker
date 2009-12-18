@@ -17,6 +17,7 @@
  */
 package fr.armida.refloker;
 
+import static fr.armida.refloker.Reflector.ofType;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -90,7 +91,7 @@ public class CommandMethodInvocationTest {
 		target.visibleCommandWithArgOfSupertype(expectedArg);
 		replay(target);
 
-		objectUnderTest.withArg(expectedArg).ofType(Number.class);
+		objectUnderTest.withArg(expectedArg, ofType(Number.class));
 		objectUnderTest.invokeMethod();
 
 		verify(target);
@@ -107,8 +108,7 @@ public class CommandMethodInvocationTest {
 		target.visibleCommandWithTwoArgs(expectedArgOne, expectedArgTwo);
 		replay(target);
 
-		objectUnderTest.withArg(expectedArgOne).ofType(Number.class).andArg(
-				expectedArgTwo).ofType(Collection.class);
+		objectUnderTest.withArg(expectedArgOne, ofType(Number.class)).andArg(expectedArgTwo, ofType(Collection.class));
 		objectUnderTest.invokeMethod();
 
 		verify(target);
@@ -123,7 +123,7 @@ public class CommandMethodInvocationTest {
 		target.visibleCommandWithArg(expectedArg);
 		replay(target);
 
-		objectUnderTest.withArg(expectedArg).ofType(Integer.class);
+		objectUnderTest.withArg(expectedArg, ofType(Integer.class));
 		objectUnderTest.invokeMethod();
 
 		verify(target);

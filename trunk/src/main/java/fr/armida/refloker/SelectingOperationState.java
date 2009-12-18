@@ -65,7 +65,7 @@ public interface SelectingOperationState<TARGET> {
 	AwaitingValueState setField(String fieldName);
 
 	/**
-	 * Selects an opeteration of field set. The field is declared in the
+	 * Selects an operation of field set. The field is declared in the
 	 * specified superclass.
 	 * 
 	 * @param fieldame
@@ -91,4 +91,20 @@ public interface SelectingOperationState<TARGET> {
 	 * @return
 	 */
 	AwaitingValueState setHiddenField(String fieldName, Class<? super TARGET> declaringSuperclass);
+
+	/**
+	 * Selects an operation of method invocation.
+	 * 
+	 * @param methodName
+	 * @return
+	 */
+	AwaitingArgumentState invokeMethod(String methodName);
+	/**
+	 * Selects an operation of hidden method read. Hidden means any non-public
+	 * visibility.
+	 * 
+	 * @param methodName
+	 * @return
+	 */
+	AwaitingArgumentState invokeHiddenMethod(String methodName);
 }

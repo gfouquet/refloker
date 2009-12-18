@@ -60,11 +60,13 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return new HiddenFieldSet<TARGET>(target, fieldName);
 	}
 
-	public MethodInvocation<TARGET> invokeMethod(String methodName) {
+	public AwaitingArgumentState invokeMethod(String methodName) {
+		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
 		return new MethodInvocation<TARGET>(target, methodName);
 	}
 
-	public MethodInvocation<TARGET> invokeHiddenMethod(String methodName) {
+	public AwaitingArgumentState invokeHiddenMethod(String methodName) {
+		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
 		return new HiddenMethodInvocation<TARGET>(target, methodName);
 	}
 

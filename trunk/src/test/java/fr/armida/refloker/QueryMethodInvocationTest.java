@@ -17,6 +17,7 @@
  */
 package fr.armida.refloker;
 
+import static fr.armida.refloker.Reflector.ofType;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -96,7 +97,7 @@ public class QueryMethodInvocationTest {
 				"res");
 		replay(target);
 
-		objectUnderTest.withArg(expectedArg).ofType(Number.class);
+		objectUnderTest.withArg(expectedArg, ofType(Number.class));
 		String res = (String) objectUnderTest.invokeMethodAndReturnResult();
 
 		assertThat(res, equalTo("res"));
@@ -115,8 +116,7 @@ public class QueryMethodInvocationTest {
 				.andReturn("res");
 		replay(target);
 
-		objectUnderTest.withArg(expectedArgOne).ofType(Number.class).andArg(
-				expectedArgTwo).ofType(Collection.class);
+		objectUnderTest.withArg(expectedArgOne, ofType(Number.class)).andArg(expectedArgTwo, ofType(Collection.class));
 		String res = (String) objectUnderTest.invokeMethodAndReturnResult();
 
 		assertThat(res, equalTo("res"));
@@ -132,7 +132,7 @@ public class QueryMethodInvocationTest {
 		expect(target.visibleQueryWithArg(expectedArg)).andReturn("res");
 		replay(target);
 
-		objectUnderTest.withArg(expectedArg).ofType(Integer.class);
+		objectUnderTest.withArg(expectedArg, ofType(Integer.class));
 		String res = (String) objectUnderTest.invokeMethodAndReturnResult();
 
 		assertThat(res, equalTo("res"));

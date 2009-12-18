@@ -20,6 +20,7 @@ package fr.armida.refloker;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static fr.armida.refloker.Reflector.*;
 
 import org.junit.Test;
 
@@ -63,7 +64,7 @@ public class HiddenMethodInvocationTest {
 		int expectedResult = 10;
 		objectUnderTest = new HiddenMethodInvocation<Target>(
 				targetOfReflection, "returnTheValue");
-		objectUnderTest.withArg(10).ofType(int.class);
+		objectUnderTest.withArg(10, ofType(int.class));
 		Object res = objectUnderTest.invokeMethodAndReturnResult();
 
 		assertThat(res, equalTo((Object) expectedResult));

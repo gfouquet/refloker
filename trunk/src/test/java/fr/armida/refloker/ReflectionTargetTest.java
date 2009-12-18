@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.armida.refloker.MethodInvocation;
 import fr.armida.refloker.ReflectionTarget;
 
 public class ReflectionTargetTest {
@@ -51,12 +50,12 @@ public class ReflectionTargetTest {
 
 	@Test
 	public void shouldCreateANewMethodInvocation() {
-		MethodInvocation<TargetClass> mi = objectUnderTest
+		AwaitingArgumentState aas = objectUnderTest
 				.invokeMethod("method");
-		MethodInvocation<TargetClass> mimi = objectUnderTest
+		AwaitingArgumentState aasaas = objectUnderTest
 				.invokeMethod("method");
 
-		assertNonNullDifferentValues(mi, mimi);
+		assertNonNullDifferentValues(aas, aasaas);
 	}
 
 	private <V> void assertNonNullDifferentValues(V v, V w) {
@@ -67,12 +66,12 @@ public class ReflectionTargetTest {
 
 	@Test
 	public void shouldCreateANewHiddenMethodInvocation() {
-		MethodInvocation<TargetClass> mi = objectUnderTest
-				.invokeHiddenMethod("field");
-		MethodInvocation<TargetClass> mimi = objectUnderTest
-				.invokeHiddenMethod("field");
+		AwaitingArgumentState aas = objectUnderTest
+				.invokeHiddenMethod("method");
+		AwaitingArgumentState aasaas = objectUnderTest
+				.invokeHiddenMethod("method");
 
-		assertNonNullDifferentValues(mi, mimi);
+		assertNonNullDifferentValues(aas, aasaas);
 	}
 
 	@Test
