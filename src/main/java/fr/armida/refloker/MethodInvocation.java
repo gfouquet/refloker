@@ -26,7 +26,7 @@ import java.util.List;
 import fr.armida.refloker.util.AssertNotNull;
 import fr.armida.refloker.util.CollectionAdapter;
 
-public class MethodInvocation<TARGET> implements AwaitingArgumentState {
+/*package-private*/class MethodInvocation<TARGET> implements AwaitingArgumentState {
 	private final TARGET target;
 	protected final MethodFinder<TARGET> methodFinder;
 
@@ -34,7 +34,7 @@ public class MethodInvocation<TARGET> implements AwaitingArgumentState {
 	private final Collection<Class<?>> argsTypesAdapter;
 	private final Collection<?> argsValuesAdapter;
 
-	protected MethodInvocation(TARGET target, String methodName) {
+	public MethodInvocation(TARGET target, String methodName) {
 		this.target = target;
 		methodFinder = MethodFinder.createFinderForMethodOfObject(methodName, target);
 
@@ -77,6 +77,7 @@ public class MethodInvocation<TARGET> implements AwaitingArgumentState {
 	 */
 	public/* final */<ARG> AwaitingArgumentState withArg(ARG arg) {
 		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
+		// TODO could be added as an ArgDefinition callback
 		argsDefinitions.add(definition);
 		return this;
 	}
@@ -125,6 +126,15 @@ public class MethodInvocation<TARGET> implements AwaitingArgumentState {
 
 	}
 
+	/**
+	 * Template method which relies on
+	 * {@link #findMethodWithArgsOfTypes(Class[])}.
+	 * 
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws InvocationTargetException
+	 * @throws IllegalAccessException
+	 */
 	private Object doInvokeMethodAndReturnResult() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 		Method method = findMethodWithArgsOfTypes(getArgsTypes());
 
@@ -180,5 +190,10 @@ public class MethodInvocation<TARGET> implements AwaitingArgumentState {
 	 */
 	public <ARG> AwaitingArgumentState andArg(ARG arg, Class<? super ARG> signatureType) {
 		return withArg(arg, signatureType);
+	}
+
+	public final void declaredIn(Class<? super TARGET> classDefiningMethod) {
+		AssertNotNull.assertArgumentIsNotNull(classDefiningMethod, "classDefiningMethod");
+		methodFinder.setClassWhereOperationIsDeclared(classDefiningMethod);
 	}
 }

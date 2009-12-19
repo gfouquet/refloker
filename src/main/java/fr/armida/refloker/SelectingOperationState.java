@@ -32,10 +32,10 @@ public interface SelectingOperationState<TARGET> {
 	 * specified superclass.
 	 * 
 	 * @param fieldName
-	 * @param declaringSuperclass
+	 * @param classDeclaringField
 	 * @return
 	 */
-	ExecutableQueryState getField(String fieldName, Class<? super TARGET> declaringSuperclass);
+	ExecutableQueryState getField(String fieldName, Class<? super TARGET> classDeclaringField);
 
 	/**
 	 * Selects an operation of hidden field read. Hidden means any non-public
@@ -51,10 +51,10 @@ public interface SelectingOperationState<TARGET> {
 	 * specified superclass. Hidden means any non-public visibility.
 	 * 
 	 * @param fieldName
-	 * @param declaringSuperclass
+	 * @param classDeclaringField
 	 * @return
 	 */
-	ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> declaringSuperclass);
+	ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> classDeclaringField);
 
 	/**
 	 * Selects an opeteration of field set.
@@ -71,7 +71,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param fieldame
 	 * @return
 	 */
-	AwaitingValueState setField(String fieldName, Class<? super TARGET> declaringSuperclass);
+	AwaitingValueState setField(String fieldName, Class<? super TARGET> classDeclaringField);
 
 	/**
 	 * Selects an operation of hidden field set. Hidden means any non-public
@@ -87,10 +87,10 @@ public interface SelectingOperationState<TARGET> {
 	 * specified superclass. Hidden means any non-public visibility.
 	 * 
 	 * @param fieldName
-	 * @param declaringSuperclass
+	 * @param classDeclaringField
 	 * @return
 	 */
-	AwaitingValueState setHiddenField(String fieldName, Class<? super TARGET> declaringSuperclass);
+	AwaitingValueState setHiddenField(String fieldName, Class<? super TARGET> classDeclaringField);
 
 	/**
 	 * Selects an operation of method invocation.
@@ -99,6 +99,15 @@ public interface SelectingOperationState<TARGET> {
 	 * @return
 	 */
 	AwaitingArgumentState invokeMethod(String methodName);
+
+	/**
+	 * Selects an operation of method invocation. The method is declared in the
+	 * specified superclass.
+	 * 
+	 * @param methodName
+	 * @return
+	 */
+	AwaitingArgumentState invokeMethod(String methodName, Class<? super TARGET> classDeclaringMethod);
 	/**
 	 * Selects an operation of hidden method read. Hidden means any non-public
 	 * visibility.

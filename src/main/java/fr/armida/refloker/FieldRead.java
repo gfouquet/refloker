@@ -22,19 +22,17 @@ import java.lang.reflect.Field;
 
 import fr.armida.refloker.util.NullArgumentException;
 
-public class FieldRead<TARGET> implements ExecutableQueryState {
+/*package-private*/class FieldRead<TARGET> implements ExecutableQueryState {
 	private final TARGET target;
 	protected final FieldFinder<TARGET> fieldFinder;
 
-	protected FieldRead(TARGET target, String fieldName) {
+	public FieldRead(TARGET target, String fieldName) {
 		this.target = target;
 		fieldFinder = FieldFinder.createFinderForFieldOfObject(fieldName, target);
 	}
 
-	protected final FieldRead<TARGET> declaredIn(
-			Class<? super TARGET> classDeclaringField)
-			throws NullArgumentException {
-		fieldFinder.declaredIn(classDeclaringField);
+	public final FieldRead<TARGET> declaredIn(Class<? super TARGET> classDeclaringField) throws NullArgumentException {
+		fieldFinder.setClassWhereOperationIsDeclared(classDeclaringField);
 		return this;
 	}
 
@@ -53,14 +51,27 @@ public class FieldRead<TARGET> implements ExecutableQueryState {
 		return result;
 	}
 
-	private Object doReadField() throws NoSuchFieldException,
-			IllegalAccessException {
+	/**
+	 * Template method invoking {@link #getReadableField()}
+	 * 
+	 * @return
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 */
+	private Object doReadField() throws NoSuchFieldException, IllegalAccessException {
 		Field field = getReadableField();
 		Object result = field.get(target);
 
 		return result;
 	}
 
+	/**
+	 * This method should be overridable because of its use by template method
+	 * {@link #doReadField()}.
+	 * 
+	 * @return
+	 * @throws NoSuchFieldException
+	 */
 	protected Field getReadableField() throws NoSuchFieldException {
 		return fieldFinder.getFieldFromPublicApi();
 	}
