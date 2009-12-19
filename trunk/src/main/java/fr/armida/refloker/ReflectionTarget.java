@@ -122,4 +122,14 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return new HiddenMethodInvocation<TARGET>(target, methodName);
 	}
 
+	public AwaitingArgumentState invokeHiddenMethod(String methodName, Class<? super TARGET> classDeclaringMethod) {
+		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
+		AssertNotNull.assertArgumentIsNotNull(classDeclaringMethod, "classDeclaringMethod");
+
+		MethodInvocation<TARGET> invocation = new HiddenMethodInvocation<TARGET>(target, methodName);
+		invocation.declaredIn(classDeclaringMethod);
+
+		return invocation;
+	}
+
 }
