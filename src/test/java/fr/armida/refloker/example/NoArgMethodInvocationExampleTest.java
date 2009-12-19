@@ -95,4 +95,13 @@ public class NoArgMethodInvocationExampleTest {
 		assertThat(subExample.publicVoidMethodInvoked, is(true));
 	}
 
+	@Test
+	public void shouldInvokeHiddenMethodDeclaredInSuperclass() {
+		ExampleSubclass subExample = new ExampleSubclass();
+
+		execute(on(subExample).invokeHiddenMethod("privateVoidMethod", declaredIn(Example.class)));
+
+		assertThat(subExample.privateVoidMethodInvoked, is(true));
+	}
+
 }

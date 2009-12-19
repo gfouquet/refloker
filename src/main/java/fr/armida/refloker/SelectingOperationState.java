@@ -116,4 +116,14 @@ public interface SelectingOperationState<TARGET> {
 	 * @return
 	 */
 	AwaitingArgumentState invokeHiddenMethod(String methodName);
+
+	/**
+	 * Selects an operation of hidden method invocation. The method is declared
+	 * in the specified superclass.
+	 * 
+	 * @param methodName
+	 * @return
+	 */
+	AwaitingArgumentState invokeHiddenMethod(String methodName, Class<? super TARGET> classDeclaringMethod);
+
 }
