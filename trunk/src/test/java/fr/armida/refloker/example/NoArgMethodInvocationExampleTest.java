@@ -18,6 +18,7 @@
  */
 package fr.armida.refloker.example;
 
+import static fr.armida.refloker.Reflector.declaredIn;
 import static fr.armida.refloker.Reflector.execute;
 import static fr.armida.refloker.Reflector.executeAndReturnValue;
 import static fr.armida.refloker.Reflector.on;
@@ -47,32 +48,51 @@ public class NoArgMethodInvocationExampleTest {
 		}
 	}
 
-	private Example stubExample;
+	/**
+	 * this class only inherits of {@link Example} and nothing else.
+	 * 
+	 * @author Grégory
+	 * 
+	 */
+	public static class ExampleSubclass extends Example {
+
+	}
+
+	private Example example;
 
 	@Before
 	public void setUpExample() {
-		stubExample = new Example();
+		example = new Example();
 	}
 
 	@Test
 	public void shouldInvokeVisibleVoidMethod() {
-		execute(on(stubExample).invokeMethod("voidMethod"));
+		execute(on(example).invokeMethod("voidMethod"));
 
-		assertThat(stubExample.publicVoidMethodInvoked, is(true));
+		assertThat(example.publicVoidMethodInvoked, is(true));
 	}
 
 	@Test
 	public void shouldInvokeVisibleStringMethod() {
-		String value = (String) executeAndReturnValue(on(stubExample).invokeMethod("stringMethod"));
+		String value = (String) executeAndReturnValue(on(example).invokeMethod("stringMethod"));
 
 		assertThat(value, is("invoked"));
 	}
 
 	@Test
 	public void shouldInvokeHiddenVoidMethod() {
-		execute(on(stubExample).invokeHiddenMethod("privateVoidMethod"));
+		execute(on(example).invokeHiddenMethod("privateVoidMethod"));
 
-		assertThat(stubExample.privateVoidMethodInvoked, is(true));
+		assertThat(example.privateVoidMethodInvoked, is(true));
+	}
+
+	@Test
+	public void shouldInvokeMethodDeclaredInSuperclass() {
+		ExampleSubclass subExample = new ExampleSubclass();
+
+		execute(on(subExample).invokeMethod("voidMethod", declaredIn(Example.class)));
+
+		assertThat(subExample.publicVoidMethodInvoked, is(true));
 	}
 
 }

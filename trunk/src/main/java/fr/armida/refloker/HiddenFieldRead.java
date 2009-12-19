@@ -21,7 +21,7 @@ import java.lang.reflect.Field;
 
 /*package-private*/final class HiddenFieldRead<TARGET> extends FieldRead<TARGET> {
 
-	protected HiddenFieldRead(TARGET target, String fieldName) {
+	public HiddenFieldRead(TARGET target, String fieldName) {
 		super(target, fieldName);
 	}
 

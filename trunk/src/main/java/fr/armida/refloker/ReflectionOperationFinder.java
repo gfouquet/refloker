@@ -16,6 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package fr.armida.refloker;
+
 import static fr.armida.refloker.util.AssertNotNull.assertArgumentIsNotNull;
 import fr.armida.refloker.util.NullArgumentException;
 
@@ -29,19 +30,14 @@ import fr.armida.refloker.util.NullArgumentException;
 	 */
 	private Class<? super OPERATION_OWNER> classWhereOperationIsDeclared;
 
-	protected ReflectionOperationFinder(
-			Class<? super OPERATION_OWNER> classDefiningOperation,
-			String operationName) {
+	protected ReflectionOperationFinder(Class<? super OPERATION_OWNER> classDefiningOperation, String operationName) {
 		super();
 		this.operationName = operationName;
-		declaredIn(classDefiningOperation);
+		setClassWhereOperationIsDeclared(classDefiningOperation);
 	}
 
-	public final void declaredIn(
-Class<? super OPERATION_OWNER> classDeclaringOperation)
-			throws NullArgumentException {
-		assertArgumentIsNotNull(classDeclaringOperation,
- "classDeclaringOperation");
+	public final void setClassWhereOperationIsDeclared(Class<? super OPERATION_OWNER> classDeclaringOperation) throws NullArgumentException {
+		assertArgumentIsNotNull(classDeclaringOperation, "classDeclaringOperation");
 
 		classWhereOperationIsDeclared = classDeclaringOperation;
 	}

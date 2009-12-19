@@ -19,13 +19,12 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Field;
 
-
-class FieldSet<TARGET> implements AwaitingValueState {
+/*package-private*/class FieldSet<TARGET> implements AwaitingValueState {
 	private TARGET target;
 	protected final FieldFinder<TARGET> fieldFinder;
 	private Object valueToSet;
 
-	protected FieldSet(TARGET target, String fieldName) {
+	public FieldSet(TARGET target, String fieldName) {
 		this.target = target;
 		fieldFinder = FieldFinder.createFinderForFieldOfObject(fieldName, target);
 	}
@@ -45,19 +44,32 @@ class FieldSet<TARGET> implements AwaitingValueState {
 		}
 	}
 
+	/**
+	 * Template method which relies on {@link #getSettableField()}.
+	 * 
+	 * @throws NoSuchFieldException
+	 * @throws IllegalAccessException
+	 */
 	private void doSetField() throws NoSuchFieldException, IllegalAccessException {
 		Field field = getSettableField();
 		
 		field.set(target, valueToSet);
 	}
 
+	/**
+	 * Should be overridable because it is part of template method
+	 * {@link #doSetField()}.
+	 * 
+	 * @return
+	 * @throws NoSuchFieldException
+	 */
 	protected Field getSettableField() throws NoSuchFieldException {
 		return fieldFinder.getFieldFromPublicApi();
 	}
 
-	protected final FieldSet<TARGET> declaredIn(
+	public final FieldSet<TARGET> declaredIn(
 			Class<? super TARGET> classDeclaringField) {
-		fieldFinder.declaredIn(classDeclaringField);
+		fieldFinder.setClassWhereOperationIsDeclared(classDeclaringField);
 		return this;
 	}
 

@@ -39,6 +39,16 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return new FieldRead<TARGET>(target, fieldName);
 	}
 
+	public ExecutableQueryState getField(String fieldName, Class<? super TARGET> classDeclaringField) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+		AssertNotNull.assertArgumentIsNotNull(classDeclaringField, "classDeclaringField");
+
+		FieldRead<TARGET> fieldRead = new FieldRead<TARGET>(target, fieldName);
+		fieldRead.declaredIn(classDeclaringField);
+
+		return fieldRead;
+	}
+
 	/**
 	 * Defines the read of a restricted access (protected or less) field.
 	 * 
@@ -50,19 +60,61 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return new HiddenFieldRead<TARGET>(target, fieldName);
 	}
 
+	public ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> classDeclaringField) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+		AssertNotNull.assertArgumentIsNotNull(classDeclaringField, "classDeclaringField");
+
+		FieldRead<TARGET> fieldRead = new HiddenFieldRead<TARGET>(target, fieldName);
+		fieldRead.declaredIn(classDeclaringField);
+
+		return fieldRead;
+	}
+
 	public AwaitingValueState setField(String fieldName) {
 		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		return new FieldSet<TARGET>(target, fieldName);
 	}
 
+	public AwaitingValueState setField(String fieldName, Class<? super TARGET> classDeclaringField) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+		AssertNotNull.assertArgumentIsNotNull(classDeclaringField, "classDeclaringField");
+
+		FieldSet<TARGET> fieldSet = new FieldSet<TARGET>(target, fieldName);
+		fieldSet.declaredIn(classDeclaringField);
+
+		return fieldSet;
+	}
+
 	public AwaitingValueState setHiddenField(String fieldName) {
 		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+
 		return new HiddenFieldSet<TARGET>(target, fieldName);
+	}
+
+	public AwaitingValueState setHiddenField(String fieldName, Class<? super TARGET> classDeclaringField) {
+		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
+		AssertNotNull.assertArgumentIsNotNull(classDeclaringField, "classDeclaringField");
+
+		FieldSet<TARGET> fieldSet = new HiddenFieldSet<TARGET>(target, fieldName);
+		fieldSet.declaredIn(classDeclaringField);
+
+		return fieldSet;
 	}
 
 	public AwaitingArgumentState invokeMethod(String methodName) {
 		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
+
 		return new MethodInvocation<TARGET>(target, methodName);
+	}
+
+	public AwaitingArgumentState invokeMethod(String methodName, Class<? super TARGET> classDeclaringMethod) {
+		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
+		AssertNotNull.assertArgumentIsNotNull(classDeclaringMethod, "classDeclaringMethod");
+
+		MethodInvocation<TARGET> invocation = new MethodInvocation<TARGET>(target, methodName);
+		invocation.declaredIn(classDeclaringMethod);
+
+		return invocation;
 	}
 
 	public AwaitingArgumentState invokeHiddenMethod(String methodName) {
@@ -70,43 +122,4 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return new HiddenMethodInvocation<TARGET>(target, methodName);
 	}
 
-	public ExecutableQueryState getField(String fieldName, Class<? super TARGET> declaringSuperclass) {
-		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
-		AssertNotNull.assertArgumentIsNotNull(declaringSuperclass, "declaringSuperclass");
-
-		FieldRead<TARGET> fieldRead = new FieldRead<TARGET>(target, fieldName);
-		fieldRead.declaredIn(declaringSuperclass);
-
-		return fieldRead;
-	}
-
-	public ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> declaringSuperclass) {
-		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
-		AssertNotNull.assertArgumentIsNotNull(declaringSuperclass, "declaringSuperclass");
-
-		FieldRead<TARGET> fieldRead = new HiddenFieldRead<TARGET>(target, fieldName);
-		fieldRead.declaredIn(declaringSuperclass);
-
-		return fieldRead;
-	}
-
-	public AwaitingValueState setField(String fieldName, Class<? super TARGET> declaringSuperclass) {
-		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
-		AssertNotNull.assertArgumentIsNotNull(declaringSuperclass, "declaringSuperclass");
-
-		FieldSet<TARGET> fieldSet = new FieldSet<TARGET>(target, fieldName);
-		fieldSet.declaredIn(declaringSuperclass);
-
-		return fieldSet;
-	}
-
-	public AwaitingValueState setHiddenField(String fieldName, Class<? super TARGET> declaringSuperclass) {
-		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
-		AssertNotNull.assertArgumentIsNotNull(declaringSuperclass, "declaringSuperclass");
-
-		FieldSet<TARGET> fieldSet = new HiddenFieldSet<TARGET>(target, fieldName);
-		fieldSet.declaredIn(declaringSuperclass);
-
-		return fieldSet;
-	}
 }
