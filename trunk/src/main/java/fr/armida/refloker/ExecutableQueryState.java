@@ -18,6 +18,6 @@
  */
 package fr.armida.refloker;
 
-public interface ExecutableQueryState {
-	Object executeAndReturnValue();
+public interface ExecutableQueryState<VALUE> {
+	VALUE executeAndReturnValue();
 }

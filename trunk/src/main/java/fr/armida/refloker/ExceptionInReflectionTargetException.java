@@ -17,12 +17,19 @@
  */
 package fr.armida.refloker;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class ExceptionInReflectionTargetException extends RuntimeException {
 
 	private static final long serialVersionUID = 8671296922309059131L;
 
 	protected ExceptionInReflectionTargetException(Throwable cause) {
 		super(cause);
+	}
+
+	protected static void unwrapCauseAndRethrow(InvocationTargetException e) throws ExceptionInReflectionTargetException {
+		Throwable cause = e.getCause();
+		throw new ExceptionInReflectionTargetException(cause);
 	}
 
 }
