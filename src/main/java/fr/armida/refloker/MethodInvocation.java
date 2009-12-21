@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 
 import fr.armida.refloker.util.AssertNotNull;
 
-/* package-private */class MethodInvocation<TARGET> extends OperationWithArguments<TARGET> implements AwaitingArgumentState {
+/* package-private */class MethodInvocation<TARGET> extends OperationWithArguments<TARGET> implements AwaitingArgumentState<Object> {
 	private final TARGET target;
 	protected final MethodFinder<TARGET> methodFinder;
 
@@ -45,7 +45,7 @@ import fr.armida.refloker.util.AssertNotNull;
 	 * @param arg
 	 * @return
 	 */
-	public/* final */<ARG> AwaitingArgumentState withArg(ARG arg) {
+	public/* final */<ARG> AwaitingArgumentState<Object> withArg(ARG arg) {
 		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
 		// TODO could be added as an ArgDefinition callback
 		addArgDefinition(definition);
@@ -58,7 +58,7 @@ import fr.armida.refloker.util.AssertNotNull;
 	 * @param arg
 	 * @return
 	 */
-	public/* final */<ARG> AwaitingArgumentState andArg(ARG arg) {
+	public/* final */<ARG> AwaitingArgumentState<Object> andArg(ARG arg) {
 		return withArg(arg);
 	}
 
@@ -135,7 +135,7 @@ import fr.armida.refloker.util.AssertNotNull;
 		return invokeMethodAndReturnResult();
 	}
 
-	public <ARG> AwaitingArgumentState withArg(ARG arg, Class<? super ARG> signatureType) {
+	public <ARG> AwaitingArgumentState<Object> withArg(ARG arg, Class<? super ARG> signatureType) {
 		AssertNotNull.assertArgumentIsNotNull(signatureType, "signatureType");
 
 		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
@@ -148,7 +148,7 @@ import fr.armida.refloker.util.AssertNotNull;
 	/**
 	 * Syntactic sugar, same as {@link #withArg(Object, Class)}
 	 */
-	public <ARG> AwaitingArgumentState andArg(ARG arg, Class<? super ARG> signatureType) {
+	public <ARG> AwaitingArgumentState<Object> andArg(ARG arg, Class<? super ARG> signatureType) {
 		return withArg(arg, signatureType);
 	}
 

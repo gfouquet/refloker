@@ -17,14 +17,16 @@
  */
 package fr.armida.refloker;
 
-public final class ArgDefinition<ARG, METHOD_INVOCATION extends MethodInvocation<?>> {
-	private final METHOD_INVOCATION methodInvocation;
+import fr.armida.refloker.util.AssertNotNull;
+
+/*package-private*/final class ArgDefinition<ARG, OPERATION extends OperationWithArguments<?>> {
+	private final OPERATION operation;
 	private final ARG value;
 	private Class<?> signatureType;
 
-	private ArgDefinition(METHOD_INVOCATION methodInvocation, ARG value) {
+	private ArgDefinition(OPERATION operation, ARG value) {
 		super();
-		this.methodInvocation = methodInvocation;
+		this.operation = operation;
 		this.value = value;
 		signatureType = value.getClass();
 	}
@@ -37,15 +39,17 @@ public final class ArgDefinition<ARG, METHOD_INVOCATION extends MethodInvocation
 		return signatureType;
 	}
 
-	public METHOD_INVOCATION ofType(Class<? super ARG> typeInSignature) {
+	public OPERATION ofType(Class<? super ARG> typeInSignature) {
 		this.signatureType = typeInSignature;
 
-		return methodInvocation;
+		return operation;
 	}
 
-	protected static <A, MI extends MethodInvocation<?>> ArgDefinition<A, MI> createDefinitionForArgOfMethod(
-			A value, MI methodInvocation) {
-		ArgDefinition<A, MI> def = new ArgDefinition<A, MI>(methodInvocation,
+	public static <A, O extends OperationWithArguments<?>> ArgDefinition<A, O> createDefinitionForArgOfMethod(A value, O operation) {
+		AssertNotNull.assertArgumentIsNotNull(value, "value");
+		AssertNotNull.assertArgumentIsNotNull(operation, "operation");
+
+		ArgDefinition<A, O> def = new ArgDefinition<A, O>(operation,
 				value);
 		return def;
 	}

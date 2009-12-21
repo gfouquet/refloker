@@ -20,6 +20,7 @@ package fr.armida.refloker;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
@@ -30,11 +31,12 @@ public class ObjectCreationTest {
 		public ToCreate() {
 
 		}
-		public ToCreate(boolean b) {
+
+		public ToCreate(Boolean b) {
 
 		}
 
-		private ToCreate(int i) {
+		private ToCreate(Integer i) {
 
 		}
 	}
@@ -52,5 +54,14 @@ public class ObjectCreationTest {
 		ToCreate created2 = testedObject.executeAndReturnValue();
 
 		assertThat(created, is(not(created2)));
+	}
+
+	@Test
+	public void shouldCreateObjectWithBoolean() {
+		testedObject.withArg(true);
+		
+		ToCreate created = testedObject.executeAndReturnValue();
+
+		assertThat(created, is(notNullValue()));
 	}
 }

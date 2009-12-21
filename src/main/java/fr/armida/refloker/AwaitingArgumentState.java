@@ -18,7 +18,7 @@
  */
 package fr.armida.refloker;
 
-public interface AwaitingArgumentState extends ExecutableQueryState<Object> {
+public interface AwaitingArgumentState<QUERY_RESULT> extends ExecutableQueryState<QUERY_RESULT> {
 	/**
 	 * Specifies an argument for a method / constructor. This method assumes the
 	 * signature type is the argument's <strong>concrete class</strong>
@@ -28,7 +28,7 @@ public interface AwaitingArgumentState extends ExecutableQueryState<Object> {
 	 *            arg can be <code>null</code>
 	 * @return
 	 */
-	<ARG> AwaitingArgumentState withArg(ARG arg);
+	<ARG> AwaitingArgumentState<QUERY_RESULT> withArg(ARG arg);
 
 	/**
 	 * Specifies an argument for a method / constructor with the expected
@@ -41,7 +41,7 @@ public interface AwaitingArgumentState extends ExecutableQueryState<Object> {
 	 *            signatureType can not be <code>null</code>
 	 * @return
 	 */
-	<ARG> AwaitingArgumentState withArg(ARG arg, Class<? super ARG> signatureType);
+	<ARG> AwaitingArgumentState<QUERY_RESULT> withArg(ARG arg, Class<? super ARG> signatureType);
 
 	/**
 	 * For syntactic purpose, same as {@link #withArg(Object)}
@@ -51,7 +51,7 @@ public interface AwaitingArgumentState extends ExecutableQueryState<Object> {
 	 * @param arg
 	 * @return
 	 */
-	<ARG> AwaitingArgumentState andArg(ARG arg);
+	<ARG> AwaitingArgumentState<QUERY_RESULT> andArg(ARG arg);
 
 	/**
 	 * For syntactic purpose, same as {@link #withArg(Object, Class)}
@@ -64,5 +64,5 @@ public interface AwaitingArgumentState extends ExecutableQueryState<Object> {
 	 *            signatureType can not be <code>null</code>
 	 * @return
 	 */
-	<ARG> AwaitingArgumentState andArg(ARG arg, Class<? super ARG> signatureType);
+	<ARG> AwaitingArgumentState<QUERY_RESULT> andArg(ARG arg, Class<? super ARG> signatureType);
 }
