@@ -19,47 +19,17 @@ package fr.armida.refloker;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import fr.armida.refloker.util.AssertNotNull;
-import fr.armida.refloker.util.CollectionAdapter;
 
-/*package-private*/class MethodInvocation<TARGET> implements AwaitingArgumentState {
+/* package-private */class MethodInvocation<TARGET> extends OperationWithArguments<TARGET> implements AwaitingArgumentState {
 	private final TARGET target;
 	protected final MethodFinder<TARGET> methodFinder;
 
-	private final List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions = new ArrayList<ArgDefinition<?, ? extends MethodInvocation<TARGET>>>();
-	private final Collection<Class<?>> argsTypesAdapter;
-	private final Collection<?> argsValuesAdapter;
-
 	public MethodInvocation(TARGET target, String methodName) {
+		super();
 		this.target = target;
 		methodFinder = MethodFinder.createFinderForMethodOfObject(methodName, target);
-
-		this.argsTypesAdapter = adaptToSignatureTypes(argsDefinitions);
-		this.argsValuesAdapter = adaptToValues(argsDefinitions);
-	}
-
-	private Collection<?> adaptToValues(List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
-		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Object>(argsDefinitions) {
-
-			@Override
-			protected Object adapt(ArgDefinition<?, ? extends MethodInvocation<TARGET>> sourceItem) {
-				return sourceItem.getValue();
-			}
-		};
-	}
-
-	private Collection<Class<?>> adaptToSignatureTypes(List<ArgDefinition<?, ? extends MethodInvocation<TARGET>>> argsDefinitions) {
-		return new CollectionAdapter<ArgDefinition<?, ? extends MethodInvocation<TARGET>>, Class<?>>(argsDefinitions) {
-
-			@Override
-			protected Class<?> adapt(ArgDefinition<?, ? extends MethodInvocation<TARGET>> sourceItem) {
-				return sourceItem.getSignatureType();
-			}
-		};
 	}
 
 	/**
@@ -78,7 +48,7 @@ import fr.armida.refloker.util.CollectionAdapter;
 	public/* final */<ARG> AwaitingArgumentState withArg(ARG arg) {
 		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
 		// TODO could be added as an ArgDefinition callback
-		argsDefinitions.add(definition);
+		addArgDefinition(definition);
 		return this;
 	}
 
@@ -157,18 +127,8 @@ import fr.armida.refloker.util.CollectionAdapter;
 		return methodFinder.getMethodFromPublicApi(argsTypes);
 	}
 
-	private Class<?>[] getArgsTypes() {
-		int nTypes = argsTypesAdapter.size();
-		return argsTypesAdapter.toArray(new Class<?>[nTypes]);
-	}
-
-	private Object[] getArgsValues() {
-		return argsValuesAdapter.toArray();
-	}
-
 	private void unwrapAndRethrowCause(InvocationTargetException e) throws ExceptionInReflectionTargetException {
-		Throwable cause = e.getCause();
-		throw new ExceptionInReflectionTargetException(cause);
+		ExceptionInReflectionTargetException.unwrapCauseAndRethrow(e);
 	}
 
 	public Object executeAndReturnValue() {
@@ -180,7 +140,7 @@ import fr.armida.refloker.util.CollectionAdapter;
 
 		ArgDefinition<ARG, MethodInvocation<TARGET>> definition = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
 		definition.ofType(signatureType);
-		argsDefinitions.add(definition);
+		addArgDefinition(definition);
 
 		return this;
 	}

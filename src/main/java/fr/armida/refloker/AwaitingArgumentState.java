@@ -18,7 +18,7 @@
  */
 package fr.armida.refloker;
 
-public interface AwaitingArgumentState extends ExecutableQueryState {
+public interface AwaitingArgumentState extends ExecutableQueryState<Object> {
 	/**
 	 * Specifies an argument for a method / constructor. This method assumes the
 	 * signature type is the argument's <strong>concrete class</strong>

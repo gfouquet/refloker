@@ -33,4 +33,8 @@ public class WrongReflectionOperationException extends RuntimeException {
 		super(cause);
 	}
 
+	protected WrongReflectionOperationException(InstantiationException cause) {
+		super(cause);
+	}
+
 }

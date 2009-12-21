@@ -19,6 +19,7 @@
 package fr.armida.refloker;
 
 import static fr.armida.refloker.util.AssertNotNull.assertArgumentIsNotNull;
+import fr.armida.refloker.util.AssertNotNull;
 import fr.armida.refloker.util.NullArgumentException;
 
 /**
@@ -52,7 +53,7 @@ public final class Reflector {
 		return new ReflectionTarget<T>(target);
 	}
 
-	public static Object executeAndReturnValue(ExecutableQueryState reflexiveQuery) {
+	public static <T> T executeAndReturnValue(ExecutableQueryState<T> reflexiveQuery) {
 		return reflexiveQuery.executeAndReturnValue();
 	}
 
@@ -60,7 +61,7 @@ public final class Reflector {
 		reflexiveCommand.execute();
 	}
 
-	public static void execute(ExecutableQueryState reflexiveQuery) {
+	public static void execute(ExecutableQueryState<?> reflexiveQuery) {
 		reflexiveQuery.executeAndReturnValue();
 	}
 
@@ -92,5 +93,10 @@ public final class Reflector {
 	public static <T> Class<T> ofType(Class<T> signatureType) {
 		// pass through method, for semantic purpose.
 		return signatureType;
+	}
+	
+	public static <T> ExecutableQueryState<T> createA(Class<T> newObjectClass) {
+		AssertNotNull.assertArgumentIsNotNull(newObjectClass, "newObjectClass");
+		return new ObjectCreation<T>(newObjectClass);
 	}
 }
