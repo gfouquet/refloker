@@ -21,7 +21,9 @@ package fr.armida.refloker;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-class ObjectCreation<NEW_OBJECT> extends OperationWithArguments<NEW_OBJECT> implements ExecutableQueryState<NEW_OBJECT> {
+import fr.armida.refloker.util.AssertNotNull;
+
+class ObjectCreation<NEW_OBJECT> extends OperationWithArguments<NEW_OBJECT> implements AwaitingArgumentState<NEW_OBJECT> {
 	private final Class<NEW_OBJECT> newObjectClass;
 
 	private final ConstructorFinder<NEW_OBJECT> constructorFinder;
@@ -58,6 +60,26 @@ class ObjectCreation<NEW_OBJECT> extends OperationWithArguments<NEW_OBJECT> impl
 
 	private Constructor<NEW_OBJECT> findConstructorWithArgsOfTypes(Class<?>[] argsTypes) throws NoSuchMethodException {
 		return constructorFinder.getConstructorFromPublicApi(argsTypes);
+	}
+
+	public <ARG> AwaitingArgumentState<NEW_OBJECT> andArg(ARG arg) {
+		return withArg(arg);
+	}
+
+	public <ARG> AwaitingArgumentState<NEW_OBJECT> andArg(ARG arg, Class<? super ARG> signatureType) {
+		return withArg(arg, signatureType);
+	}
+
+	public <ARG> AwaitingArgumentState<NEW_OBJECT> withArg(ARG arg) {
+			AssertNotNull.assertArgumentIsNotNull(arg, "arg");
+		ArgDefinition<ARG, ObjectCreation<NEW_OBJECT>> argDef = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
+		addArgDefinition(argDef);
+		return this;
+	}
+
+	public <ARG> AwaitingArgumentState<NEW_OBJECT> withArg(ARG arg, Class<? super ARG> signatureType) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

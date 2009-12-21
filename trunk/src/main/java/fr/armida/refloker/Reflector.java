@@ -95,7 +95,7 @@ public final class Reflector {
 		return signatureType;
 	}
 	
-	public static <T> ExecutableQueryState<T> createA(Class<T> newObjectClass) {
+	public static <T> AwaitingArgumentState<T> createA(Class<T> newObjectClass) {
 		AssertNotNull.assertArgumentIsNotNull(newObjectClass, "newObjectClass");
 		return new ObjectCreation<T>(newObjectClass);
 	}

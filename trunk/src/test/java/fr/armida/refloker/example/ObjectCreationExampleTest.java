@@ -34,11 +34,15 @@ public class ObjectCreationExampleTest {
 		public Example() {
 		}
 
-		private Example(boolean argOne) {
+		public Example(Boolean argOne) {
 			this.argOne = argOne;
 		}
 
-		public Example(boolean argOne, Number argTwo) {
+		public Example(Integer argTwo) {
+			this.argTwo = argTwo;
+		}
+
+		public Example(Boolean argOne, Number argTwo) {
 			this.argOne = argOne;
 			this.argTwo = argTwo;
 		}
@@ -49,5 +53,12 @@ public class ObjectCreationExampleTest {
 		Example ex = executeAndReturnValue(createA(Example.class));
 
 		assertThat(ex, is(notNullValue()));
+	}
+
+	@Test
+	public void shouldCreateAnExampleWithBooleanArgument() {
+		Example ex = executeAndReturnValue(createA(Example.class).withArg(true));
+
+		assertThat(ex.argOne, is(true));
 	}
 }
