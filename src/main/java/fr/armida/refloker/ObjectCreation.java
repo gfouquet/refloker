@@ -78,8 +78,13 @@ class ObjectCreation<NEW_OBJECT> extends OperationWithArguments<NEW_OBJECT> impl
 	}
 
 	public <ARG> AwaitingArgumentState<NEW_OBJECT> withArg(ARG arg, Class<? super ARG> signatureType) {
-		// TODO Auto-generated method stub
-		return null;
+		AssertNotNull.assertArgumentIsNotNull(arg, "arg");
+		AssertNotNull.assertArgumentIsNotNull(signatureType, "signatureType");
+
+		ArgDefinition<ARG, ObjectCreation<NEW_OBJECT>> argDef = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
+		argDef.ofType(signatureType);
+		addArgDefinition(argDef);
+		return this;
 	}
 
 }

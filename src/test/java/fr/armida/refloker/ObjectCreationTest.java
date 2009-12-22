@@ -18,6 +18,7 @@
  */
 package fr.armida.refloker;
 
+import static fr.armida.refloker.Reflector.ofType;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -28,16 +29,22 @@ import org.junit.Test;
 
 public class ObjectCreationTest {
 	public static class ToCreate {
+		public Object arg;
+
 		public ToCreate() {
 
 		}
 
 		public ToCreate(Boolean b) {
+			arg = b;
+		}
 
+		public ToCreate(Number n) {
+			arg = n;
 		}
 
 		private ToCreate(Integer i) {
-
+			arg = i;
 		}
 	}
 
@@ -63,5 +70,16 @@ public class ObjectCreationTest {
 		ToCreate created = testedObject.executeAndReturnValue();
 
 		assertThat(created, is(notNullValue()));
+		assertThat(created.arg, is((Object) true));
+	}
+
+	@Test
+	public void shouldCreateObjectWithNumber() {
+		testedObject.withArg(1, ofType(Number.class));
+
+		ToCreate created = testedObject.executeAndReturnValue();
+
+		assertThat(created, is(notNullValue()));
+		assertThat(created.arg, is((Object) 1));
 	}
 }
