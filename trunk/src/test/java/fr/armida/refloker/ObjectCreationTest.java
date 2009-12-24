@@ -43,9 +43,6 @@ public class ObjectCreationTest {
 			arg = n;
 		}
 
-		private ToCreate(Integer i) {
-			arg = i;
-		}
 	}
 
 	private ObjectCreation<ToCreate> testedObject;
@@ -82,4 +79,5 @@ public class ObjectCreationTest {
 		assertThat(created, is(notNullValue()));
 		assertThat(created.arg, is((Object) 1));
 	}
+
 }

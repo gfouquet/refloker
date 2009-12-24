@@ -23,20 +23,17 @@ import java.lang.reflect.InvocationTargetException;
 
 import fr.armida.refloker.util.AssertNotNull;
 
-class ObjectCreation<NEW_OBJECT> extends OperationWithArguments<NEW_OBJECT> implements AwaitingArgumentState<NEW_OBJECT> {
-	private final Class<NEW_OBJECT> newObjectClass;
+class ObjectCreation<OBJECT_TO_CREATE> extends OperationWithArguments<OBJECT_TO_CREATE> implements AwaitingArgumentState<OBJECT_TO_CREATE> {
+	protected final ConstructorFinder<OBJECT_TO_CREATE> constructorFinder;
 
-	private final ConstructorFinder<NEW_OBJECT> constructorFinder;
-
-	protected ObjectCreation(Class<NEW_OBJECT> newObjectClass) {
+	protected ObjectCreation(Class<OBJECT_TO_CREATE> classOfObjectToCreate) {
 		super();
-		assert newObjectClass != null;
-		this.newObjectClass = newObjectClass;
-		constructorFinder = new ConstructorFinder<NEW_OBJECT>(newObjectClass);
+		assert classOfObjectToCreate != null;
+		constructorFinder = new ConstructorFinder<OBJECT_TO_CREATE>(classOfObjectToCreate);
 	}
 
-	public NEW_OBJECT executeAndReturnValue() {
-		NEW_OBJECT newObect = null;
+	public OBJECT_TO_CREATE executeAndReturnValue() {
+		OBJECT_TO_CREATE newObect = null;
 		try {
 			newObect = doCreateNewObject();
 		} catch (NoSuchMethodException e) {
@@ -51,37 +48,56 @@ class ObjectCreation<NEW_OBJECT> extends OperationWithArguments<NEW_OBJECT> impl
 		return newObect;
 	}
 
-	private NEW_OBJECT doCreateNewObject() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
-		NEW_OBJECT newObect;
-		Constructor<NEW_OBJECT> constructor = findConstructorWithArgsOfTypes(getArgsTypes());
-		newObect = constructor.newInstance(getArgsValues());
-		return newObect;
+	/**
+	 * Template method which creates a new object. Invokes
+	 * {@link #findConstructorWithArgsOfTypes(Class[])}
+	 * 
+	 * @return
+	 * @throws NoSuchMethodException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 */
+	private OBJECT_TO_CREATE doCreateNewObject() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+		Constructor<OBJECT_TO_CREATE> constructor = findConstructorWithArgsOfTypes(getArgsTypes());
+
+		return constructor.newInstance(getArgsValues());
 	}
 
-	private Constructor<NEW_OBJECT> findConstructorWithArgsOfTypes(Class<?>[] argsTypes) throws NoSuchMethodException {
+	/**
+	 * This method should be overridden to specialize the
+	 * {@link #doCreateNewObject()} template method.
+	 * 
+	 * @param argsTypes
+	 * @return
+	 * @throws NoSuchMethodException
+	 */
+	protected Constructor<OBJECT_TO_CREATE> findConstructorWithArgsOfTypes(Class<?>[] argsTypes) throws NoSuchMethodException {
 		return constructorFinder.getConstructorFromPublicApi(argsTypes);
 	}
 
-	public <ARG> AwaitingArgumentState<NEW_OBJECT> andArg(ARG arg) {
+	public <ARG> AwaitingArgumentState<OBJECT_TO_CREATE> andArg(ARG arg) {
 		return withArg(arg);
 	}
 
-	public <ARG> AwaitingArgumentState<NEW_OBJECT> andArg(ARG arg, Class<? super ARG> signatureType) {
+	public <ARG> AwaitingArgumentState<OBJECT_TO_CREATE> andArg(ARG arg, Class<? super ARG> signatureType) {
 		return withArg(arg, signatureType);
 	}
 
-	public <ARG> AwaitingArgumentState<NEW_OBJECT> withArg(ARG arg) {
-			AssertNotNull.assertArgumentIsNotNull(arg, "arg");
-		ArgDefinition<ARG, ObjectCreation<NEW_OBJECT>> argDef = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
+	public <ARG> AwaitingArgumentState<OBJECT_TO_CREATE> withArg(ARG arg) {
+		AssertNotNull.assertArgumentIsNotNull(arg, "arg");
+
+		ArgDefinition<ARG, ObjectCreation<OBJECT_TO_CREATE>> argDef = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
 		addArgDefinition(argDef);
+
 		return this;
 	}
 
-	public <ARG> AwaitingArgumentState<NEW_OBJECT> withArg(ARG arg, Class<? super ARG> signatureType) {
+	public <ARG> AwaitingArgumentState<OBJECT_TO_CREATE> withArg(ARG arg, Class<? super ARG> signatureType) {
 		AssertNotNull.assertArgumentIsNotNull(arg, "arg");
 		AssertNotNull.assertArgumentIsNotNull(signatureType, "signatureType");
 
-		ArgDefinition<ARG, ObjectCreation<NEW_OBJECT>> argDef = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
+		ArgDefinition<ARG, ObjectCreation<OBJECT_TO_CREATE>> argDef = ArgDefinition.createDefinitionForArgOfMethod(arg, this);
 		argDef.ofType(signatureType);
 		addArgDefinition(argDef);
 		return this;

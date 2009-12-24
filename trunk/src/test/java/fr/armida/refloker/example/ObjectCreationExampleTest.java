@@ -20,6 +20,8 @@ package fr.armida.refloker.example;
 
 import static fr.armida.refloker.Reflector.createA;
 import static fr.armida.refloker.Reflector.executeAndReturnValue;
+import static fr.armida.refloker.Reflector.ofType;
+import static fr.armida.refloker.Reflector.usingHiddenConstructor;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -38,7 +40,7 @@ public class ObjectCreationExampleTest {
 			this.argOne = argOne;
 		}
 
-		public Example(Integer argTwo) {
+		private Example(Integer argTwo) {
 			this.argTwo = argTwo;
 		}
 
@@ -60,5 +62,20 @@ public class ObjectCreationExampleTest {
 		Example ex = executeAndReturnValue(createA(Example.class).withArg(true));
 
 		assertThat(ex.argOne, is(true));
+	}
+
+	@Test
+	public void shouldCreateAnExampleFromPrivateConstructor() {
+		Example ex = executeAndReturnValue(createA(Example.class, usingHiddenConstructor()).withArg(1));
+
+		assertThat(ex.argTwo, is((Number) 1));
+	}
+
+	@Test
+	public void shouldCreateAnExampleWithBooleanAndNumberArguments() {
+		Example ex = executeAndReturnValue(createA(Example.class).withArg(true).andArg(1, ofType(Number.class)));
+
+		assertThat(ex.argOne, is(true));
+		assertThat(ex.argTwo, is((Number) 1));
 	}
 }

@@ -20,16 +20,33 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Constructor;
 
-class ConstructorFinder<NEW_OBJECT> {
-	private final Class<NEW_OBJECT> classToSearch;
+/**
+ * This class is responsible for looking up constructors for objects of
+ * parameterized type.
+ * 
+ * @author Grégory
+ * 
+ * @param <SEARCHED>
+ *            the type of the object which constructors are to find.
+ */
+/* package-private */class ConstructorFinder<SEARCHED> {
+	/**
+	 * the class to search i.e. the class which constructor we are going to look
+	 * up.
+	 */
+	private final Class<SEARCHED> classToSearch;
 
-	protected ConstructorFinder(Class<NEW_OBJECT> classToSearch) {
+	protected ConstructorFinder(Class<SEARCHED> classToSearch) {
 		super();
 		assert classToSearch != null;
 		this.classToSearch = classToSearch;
 	}
 
-	public Constructor<NEW_OBJECT> getConstructorFromPublicApi(Class<?>... signatureTypes) throws NoSuchMethodException {
+	public Constructor<SEARCHED> getConstructorFromPublicApi(Class<?>... signatureTypes) throws NoSuchMethodException {
 		return classToSearch.getConstructor(signatureTypes);
+	}
+
+	public Constructor<SEARCHED> getConstructorRegardlessVisibility(Class<?>... signatureTypes) throws NoSuchMethodException {
+		return classToSearch.getDeclaredConstructor(signatureTypes);
 	}
 }
