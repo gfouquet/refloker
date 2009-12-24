@@ -34,12 +34,12 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 	 * @param fieldName
 	 * @return
 	 */
-	public ExecutableQueryState getField(String fieldName) {
+	public ExecutableQueryState<?> getField(String fieldName) {
 		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		return new FieldRead<TARGET>(target, fieldName);
 	}
 
-	public ExecutableQueryState getField(String fieldName, Class<? super TARGET> classDeclaringField) {
+	public ExecutableQueryState<?> getField(String fieldName, Class<? super TARGET> classDeclaringField) {
 		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		AssertNotNull.assertArgumentIsNotNull(classDeclaringField, "classDeclaringField");
 
@@ -55,12 +55,12 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 	 * @param fieldName
 	 * @return
 	 */
-	public ExecutableQueryState getHiddenField(String fieldName) {
+	public ExecutableQueryState<?> getHiddenField(String fieldName) {
 		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		return new HiddenFieldRead<TARGET>(target, fieldName);
 	}
 
-	public ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> classDeclaringField) {
+	public ExecutableQueryState<?> getHiddenField(String fieldName, Class<? super TARGET> classDeclaringField) {
 		AssertNotNull.assertArgumentIsNotNull(fieldName, "fieldName");
 		AssertNotNull.assertArgumentIsNotNull(classDeclaringField, "classDeclaringField");
 
@@ -101,13 +101,13 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return fieldSet;
 	}
 
-	public AwaitingArgumentState invokeMethod(String methodName) {
+	public AwaitingArgumentState<?> invokeMethod(String methodName) {
 		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
 
 		return new MethodInvocation<TARGET>(target, methodName);
 	}
 
-	public AwaitingArgumentState invokeMethod(String methodName, Class<? super TARGET> classDeclaringMethod) {
+	public AwaitingArgumentState<?> invokeMethod(String methodName, Class<? super TARGET> classDeclaringMethod) {
 		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
 		AssertNotNull.assertArgumentIsNotNull(classDeclaringMethod, "classDeclaringMethod");
 
@@ -117,12 +117,12 @@ public final class ReflectionTarget<TARGET> implements SelectingOperationState<T
 		return invocation;
 	}
 
-	public AwaitingArgumentState invokeHiddenMethod(String methodName) {
+	public AwaitingArgumentState<?> invokeHiddenMethod(String methodName) {
 		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
 		return new HiddenMethodInvocation<TARGET>(target, methodName);
 	}
 
-	public AwaitingArgumentState invokeHiddenMethod(String methodName, Class<? super TARGET> classDeclaringMethod) {
+	public AwaitingArgumentState<?> invokeHiddenMethod(String methodName, Class<? super TARGET> classDeclaringMethod) {
 		AssertNotNull.assertArgumentIsNotNull(methodName, "methodName");
 		AssertNotNull.assertArgumentIsNotNull(classDeclaringMethod, "classDeclaringMethod");
 

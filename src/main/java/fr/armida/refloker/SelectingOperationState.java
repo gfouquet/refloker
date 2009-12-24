@@ -25,7 +25,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param fieldName
 	 * @return
 	 */
-	ExecutableQueryState getField(String fieldName);
+	ExecutableQueryState<?> getField(String fieldName);
 
 	/**
 	 * Selects an operation of field read. The field is declared in the
@@ -35,7 +35,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param classDeclaringField
 	 * @return
 	 */
-	ExecutableQueryState getField(String fieldName, Class<? super TARGET> classDeclaringField);
+	ExecutableQueryState<?> getField(String fieldName, Class<? super TARGET> classDeclaringField);
 
 	/**
 	 * Selects an operation of hidden field read. Hidden means any non-public
@@ -44,7 +44,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param fieldName
 	 * @return
 	 */
-	ExecutableQueryState getHiddenField(String fieldName);
+	ExecutableQueryState<?> getHiddenField(String fieldName);
 
 	/**
 	 * Selects an operation of field read. The field is declared in the
@@ -54,7 +54,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param classDeclaringField
 	 * @return
 	 */
-	ExecutableQueryState getHiddenField(String fieldName, Class<? super TARGET> classDeclaringField);
+	ExecutableQueryState<?> getHiddenField(String fieldName, Class<? super TARGET> classDeclaringField);
 
 	/**
 	 * Selects an opeteration of field set.
@@ -98,7 +98,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param methodName
 	 * @return
 	 */
-	AwaitingArgumentState invokeMethod(String methodName);
+	AwaitingArgumentState<?> invokeMethod(String methodName);
 
 	/**
 	 * Selects an operation of method invocation. The method is declared in the
@@ -107,7 +107,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param methodName
 	 * @return
 	 */
-	AwaitingArgumentState invokeMethod(String methodName, Class<? super TARGET> classDeclaringMethod);
+	AwaitingArgumentState<?> invokeMethod(String methodName, Class<? super TARGET> classDeclaringMethod);
 	/**
 	 * Selects an operation of hidden method read. Hidden means any non-public
 	 * visibility.
@@ -115,7 +115,7 @@ public interface SelectingOperationState<TARGET> {
 	 * @param methodName
 	 * @return
 	 */
-	AwaitingArgumentState invokeHiddenMethod(String methodName);
+	AwaitingArgumentState<?> invokeHiddenMethod(String methodName);
 
 	/**
 	 * Selects an operation of hidden method invocation. The method is declared
@@ -124,6 +124,6 @@ public interface SelectingOperationState<TARGET> {
 	 * @param methodName
 	 * @return
 	 */
-	AwaitingArgumentState invokeHiddenMethod(String methodName, Class<? super TARGET> classDeclaringMethod);
+	AwaitingArgumentState<?> invokeHiddenMethod(String methodName, Class<? super TARGET> classDeclaringMethod);
 
 }

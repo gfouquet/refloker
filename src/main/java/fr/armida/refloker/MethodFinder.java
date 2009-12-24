@@ -19,33 +19,25 @@ package fr.armida.refloker;
 
 import java.lang.reflect.Method;
 
-final class MethodFinder<METHOD_OWNER> extends
-		ReflectionOperationFinder<METHOD_OWNER> {
+final class MethodFinder<METHOD_OWNER> extends ReflectionOperationFinder<METHOD_OWNER> {
 
-	private MethodFinder(Class<? super METHOD_OWNER> classDefiningMethod,
-			String methodName) {
+	private MethodFinder(Class<? super METHOD_OWNER> classDefiningMethod, String methodName) {
 		super(classDefiningMethod, methodName);
 	}
 
-	public Method getMethodFromPublicApi(Class<?>... signatureTypes)
-			throws NoSuchMethodException {
-		return getClassWhereOperationIsDeclared().getDeclaredMethod(
-				operationName, signatureTypes);
+	public Method getMethodFromPublicApi(Class<?>... signatureTypes) throws NoSuchMethodException {
+		return getClassWhereOperationIsDeclared().getDeclaredMethod(operationName, signatureTypes);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <METHOD_OWNER> MethodFinder<METHOD_OWNER> createFinderForMethodOfObject(
-			String methodName, METHOD_OWNER ownerOfMethod) {
-		Class<? super METHOD_OWNER> classDefiningMethod = (Class<? super METHOD_OWNER>) ownerOfMethod
-				.getClass();
+	public static <METHOD_OWNER> MethodFinder<METHOD_OWNER> createFinderForMethodOfObject(String methodName, METHOD_OWNER ownerOfMethod) {
+		Class<? super METHOD_OWNER> classDefiningMethod = (Class<? super METHOD_OWNER>) ownerOfMethod.getClass();
 
 		return new MethodFinder<METHOD_OWNER>(classDefiningMethod, methodName);
 	}
 
-	public Method getMethodRegardlessVisibility(Class<?>... signatureTypes)
-			throws NoSuchMethodException {
-		Method method = getClassWhereOperationIsDeclared().getDeclaredMethod(
-				operationName, signatureTypes);
+	public Method getMethodRegardlessVisibility(Class<?>... signatureTypes) throws NoSuchMethodException {
+		Method method = getClassWhereOperationIsDeclared().getDeclaredMethod(operationName, signatureTypes);
 
 		return method;
 	}

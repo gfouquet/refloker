@@ -18,9 +18,9 @@
  */
 package fr.armida.refloker.example;
 
+import static fr.armida.refloker.Reflector.declaredIn;
 import static fr.armida.refloker.Reflector.executeAndReturnValue;
 import static fr.armida.refloker.Reflector.on;
-import static fr.armida.refloker.Reflector.declaredIn;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -32,7 +32,7 @@ import fr.armida.refloker.Reflector;
 
 public class FieldReadExampleTest {
 	public static class Example {
-		private String hiddenField = "hidden field";
+		/* package-private */String hiddenField = "hidden field";
 		public String visibleField = "visible field";
 	}
 
@@ -60,7 +60,7 @@ public class FieldReadExampleTest {
 
 	@Test
 	public void shouldReadHiddenField() {
-		ExecutableQueryState fieldReadOperation = Reflector.on(example).getHiddenField("hiddenField");
+		ExecutableQueryState<?> fieldReadOperation = Reflector.on(example).getHiddenField("hiddenField");
 		Object value = executeAndReturnValue(fieldReadOperation);
 
 		assertThat(value, is((Object) "hidden field"));

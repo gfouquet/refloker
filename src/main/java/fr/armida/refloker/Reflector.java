@@ -46,8 +46,7 @@ public final class Reflector {
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public static <T> ReflectionTarget<T> on(T target)
-			throws NullArgumentException {
+	public static <T> ReflectionTarget<T> on(T target) throws NullArgumentException {
 		assertArgumentIsNotNull(target, "target");
 
 		return new ReflectionTarget<T>(target);
@@ -94,9 +93,59 @@ public final class Reflector {
 		// pass through method, for semantic purpose.
 		return signatureType;
 	}
-	
-	public static <T> AwaitingArgumentState<T> createA(Class<T> newObjectClass) {
-		AssertNotNull.assertArgumentIsNotNull(newObjectClass, "newObjectClass");
-		return new ObjectCreation<T>(newObjectClass);
+
+	/**
+	 * Starts the creation of an object using one of its public constructors.Fs
+	 * 
+	 * @param <T>
+	 * @param classOfObjectToCreate
+	 * @return
+	 */
+	public static <T> AwaitingArgumentState<T> createA(Class<T> classOfObjectToCreate) {
+		AssertNotNull.assertArgumentIsNotNull(classOfObjectToCreate, "classOfObjectToCreate");
+
+		return CreationFromVisibleConstructorFactory.INSTANCE.createObjectCreation(classOfObjectToCreate);
 	}
+
+	/**
+	 * Helper method used to specify in method
+	 * {@link #createA(Class, ObjectCreationFactory)} that we want to create an
+	 * object using one of its hidden constructors.
+	 * 
+	 * @return
+	 */
+	public static ObjectCreationFactory usingHiddenConstructor() {
+		return CreationFromHiddenConstructorFactory.INSTANCE;
+	}
+
+	/**
+	 * Helper method used to specify in method
+	 * {@link #createA(Class, ObjectCreationFactory)} that we want to create an
+	 * object using one of its visible constructors.
+	 * 
+	 * Added for consistency, one should consider {@link #createA(Class)}
+	 * instead.
+	 * 
+	 * @return
+	 */
+	public static ObjectCreationFactory usingVisibleConstructor() {
+		return CreationFromHiddenConstructorFactory.INSTANCE;
+	}
+
+	/**
+	 * Starts the creation of an object. Whether the constructor to use should
+	 * be public or private must be specified with one of the methods
+	 * {@link #usingHiddenConstructor()} and {@link #usingVisibleConstructor()}
+	 * 
+	 * @param <T>
+	 * @param classOfObjectToCreate
+	 * @return
+	 */
+	public static <T> AwaitingArgumentState<T> createA(Class<T> classOfObjectToCreate, ObjectCreationFactory objectCreationFactory) {
+		AssertNotNull.assertArgumentIsNotNull(classOfObjectToCreate, "classOfObjectToCreate");
+		AssertNotNull.assertArgumentIsNotNull(objectCreationFactory, "objectCreationFactory");
+
+		return CreationFromHiddenConstructorFactory.INSTANCE.createObjectCreation(classOfObjectToCreate);
+	}
+
 }

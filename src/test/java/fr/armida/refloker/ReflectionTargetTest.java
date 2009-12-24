@@ -25,8 +25,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.armida.refloker.ReflectionTarget;
-
 public class ReflectionTargetTest {
 	private static class TargetClass {
 	}
@@ -42,18 +40,16 @@ public class ReflectionTargetTest {
 
 	@Test
 	public void shouldCreateANewHiddenFieldRead() {
-		ExecutableQueryState eqs1 = objectUnderTest.getHiddenField("field");
-		ExecutableQueryState eqs2 = objectUnderTest.getHiddenField("field");
+		ExecutableQueryState<?> eqs1 = objectUnderTest.getHiddenField("field");
+		ExecutableQueryState<?> eqs2 = objectUnderTest.getHiddenField("field");
 
 		assertNonNullDifferentValues(eqs1, eqs2);
 	}
 
 	@Test
 	public void shouldCreateANewMethodInvocation() {
-		AwaitingArgumentState aas = objectUnderTest
-				.invokeMethod("method");
-		AwaitingArgumentState aasaas = objectUnderTest
-				.invokeMethod("method");
+		AwaitingArgumentState<?> aas = objectUnderTest.invokeMethod("method");
+		AwaitingArgumentState<?> aasaas = objectUnderTest.invokeMethod("method");
 
 		assertNonNullDifferentValues(aas, aasaas);
 	}
@@ -66,18 +62,16 @@ public class ReflectionTargetTest {
 
 	@Test
 	public void shouldCreateANewHiddenMethodInvocation() {
-		AwaitingArgumentState aas = objectUnderTest
-				.invokeHiddenMethod("method");
-		AwaitingArgumentState aasaas = objectUnderTest
-				.invokeHiddenMethod("method");
+		AwaitingArgumentState<?> aas = objectUnderTest.invokeHiddenMethod("method");
+		AwaitingArgumentState<?> aasaas = objectUnderTest.invokeHiddenMethod("method");
 
 		assertNonNullDifferentValues(aas, aasaas);
 	}
 
 	@Test
 	public void shouldCreateANewExecutableQueryState() {
-		ExecutableQueryState eqs1 = objectUnderTest.getField("field");
-		ExecutableQueryState eqs2 = objectUnderTest.getField("field");
+		ExecutableQueryState<?> eqs1 = objectUnderTest.getField("field");
+		ExecutableQueryState<?> eqs2 = objectUnderTest.getField("field");
 
 		assertNonNullDifferentValues(eqs1, eqs2);
 	}
